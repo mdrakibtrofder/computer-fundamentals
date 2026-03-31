@@ -10,6 +10,7 @@ import { StorageSection } from "@/components/StorageSection";
 import { SoftwareSection } from "@/components/SoftwareSection";
 import { NetworksAndMaintenanceSection } from "@/components/NetworksAndMaintenanceSection";
 import { InteractiveVisualization } from "@/components/InteractiveVisualization";
+import { TrackingDemo } from "@/components/TrackingDemo";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -28,6 +29,9 @@ const Index = () => {
         <SoftwareSection />
         <NetworksAndMaintenanceSection />
         <InteractiveVisualization />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-slate-950/20 backdrop-blur-xl">
+            <TrackingDemo />
+        </div>
       </main>
       <Footer />
     </div>
