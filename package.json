@@ -48,8 +48,6 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
-    "devextreme": "^25.2.5",
-    "devextreme-react": "^25.2.5",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.29.2",
     "gh-pages": "^6.3.0",

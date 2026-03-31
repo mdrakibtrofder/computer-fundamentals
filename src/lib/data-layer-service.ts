@@ -1,37 +1,62 @@
 
-import CustomStore from 'devextreme/data/custom_store';
-import { createGtmDataStore } from './gtm-datalayer';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { pushToDataLayer } from './gtm-datalayer';
 
 /**
- * Example of a tracked data store using DevExtreme Data Layer
- * This can be used by DataGrid, List, etc. and will automatically
- * fire GTM events for all CRUD operations.
+ * A "Data Layer" wrapper for TanStack Query that automatically tracks 
+ * CRUD operations and data states in GTM.
+ * 
+ * @param queryKey The TanStack Query key.
+ * @param fetchFn The function that returns the data.
  */
-export const createTrackedStore = (entityName: string) => {
-  // 1. Initial Store Definition
-  const store = new CustomStore({
-    key: 'id',
-    load: () => {
-      // Simulate fetch - replace with your actual API endpoint
-      return Promise.resolve([
-        { id: 1, name: 'Sample Item 1', category: 'General' },
-        { id: 2, name: 'Sample Item 2', category: 'Experimental' },
-      ]);
+export const useTrackedQuery = (queryKey: string[], fetchFn: () => Promise<any>) => {
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      try {
+        const data = await fetchFn();
+        // Automatic tracking of successful data loads
+        pushToDataLayer('data_loaded', {
+          query_key: queryKey.join('/'),
+          data_count: Array.isArray(data) ? data.length : 1,
+        });
+        return data;
+      } catch (error: any) {
+        // Automatic error tracking
+        pushToDataLayer('data_error', {
+          query_key: queryKey.join('/'),
+          error_message: error.message,
+        });
+        throw error;
+      }
     },
-    insert: (values) => {
-      console.log('Inserting', values);
-      return Promise.resolve(values);
+  });
+};
+
+/**
+ * Standard tracked mutation for all data modifications.
+ */
+export const useTrackedMutation = (
+  entityName: string, 
+  mutationFn: (variables: any) => Promise<any>,
+  onSuccess?: (data: any) => void
+) => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (variables) => {
+      const result = await mutationFn(variables);
+      pushToDataLayer('data_modified', {
+        entity: entityName,
+        action: 'modification',
+        variables,
+      });
+      return result;
     },
-    update: (key, values) => {
-      console.log('Updating', key, values);
-      return Promise.resolve(values);
-    },
-    remove: (key) => {
-      console.log('Removing', key);
-      return Promise.resolve();
+    onSuccess: (data) => {
+      if (onSuccess) onSuccess(data);
+      // Invalidate queries to refresh UI
+      queryClient.invalidateQueries();
     }
   });
-
-  // 2. Wrap with GTM Tracking Bridge
-  return createGtmDataStore(store, entityName);
 };
