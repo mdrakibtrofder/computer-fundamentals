@@ -15,9 +15,9 @@ import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background lg:pl-72">
       <Navigation />
-      <main>
+      <main className="pt-20 lg:pt-0">
         <HeroSection />
         <IntroductionSection />
         <NumberSystemsSection />
@@ -33,7 +33,9 @@ const Index = () => {
             <TrackingDemo />
         </div>
       </main>
-      <Footer />
+      <div className="lg:pl-0">
+        <Footer />
+      </div>
     </div>
   );
 };

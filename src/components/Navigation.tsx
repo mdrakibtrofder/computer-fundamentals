@@ -27,68 +27,136 @@ export function Navigation() {
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass-card shadow-card" : "bg-transparent"
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 lg:hidden ${
+          scrolled ? "glass-card shadow-card border-border" : "bg-background/80 backdrop-blur-xl border-transparent"
         }`}
-    >
-      <div className="container-custom flex items-center justify-between py-4 px-4 md:px-8">
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="p-2 rounded-lg bg-primary text-primary-foreground group-hover:shadow-glow transition-shadow">
-            <Cpu className="w-5 h-5" />
-          </div>
-          <span className="font-bold text-lg hidden sm:block">CSE 2109</span>
-        </a>
+      >
+        <div className="container-custom flex items-center justify-between px-4 py-4">
+          <a href="#" className="flex items-center gap-2 group">
+            <div className="p-2 rounded-lg bg-primary text-primary-foreground group-hover:shadow-glow transition-shadow">
+              <Cpu className="w-5 h-5" />
+            </div>
+            <span className="font-bold text-lg">CSE 2109</span>
+          </a>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-1">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
-            >
-              {item.label}
-            </a>
-          ))}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen((open) => !open)}
+            aria-label="Toggle navigation menu"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </Button>
         </div>
+      </motion.header>
 
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </Button>
-      </div>
+      <motion.aside
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-border/70 bg-background/90 backdrop-blur-xl lg:flex lg:flex-col"
+      >
+        <div className="flex h-full flex-col px-6 py-8">
+          <a href="#" className="flex items-center gap-3 group">
+            <div className="rounded-xl bg-primary p-3 text-primary-foreground shadow-glow transition-shadow group-hover:shadow-card">
+              <Cpu className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-lg font-bold">CSE 2109</p>
+              <p className="text-sm text-muted-foreground">Computer Fundamentals</p>
+            </div>
+          </a>
 
-      {/* Mobile Navigation */}
+          <div className="mt-8 rounded-2xl border border-border/60 bg-muted/40 p-4">
+            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+              <BookOpen className="h-4 w-4 text-primary" />
+              Course Outline
+            </div>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Jump between topics and move through the course from fundamentals to hands-on visualization.
+            </p>
+          </div>
+
+          <nav className="mt-8 flex-1 space-y-2 overflow-y-auto pr-1">
+            {navItems.map((item, index) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-primary/10 hover:text-foreground"
+              >
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  {index + 1}
+                </span>
+                <span>{item.label}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </motion.aside>
+
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass-card border-t border-border"
-          >
-            <div className="container-custom py-4 flex flex-col gap-2 px-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                >
-                  {item.label}
+          <>
+            <motion.button
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm lg:hidden"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close navigation menu"
+            />
+
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.25 }}
+              className="fixed inset-y-0 left-0 z-50 flex w-[85vw] max-w-xs flex-col border-r border-border bg-background p-6 shadow-2xl lg:hidden"
+            >
+              <div className="flex items-center justify-between">
+                <a href="#" className="flex items-center gap-2">
+                  <div className="rounded-lg bg-primary p-2 text-primary-foreground">
+                    <Cpu className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-bold">CSE 2109</p>
+                    <p className="text-xs text-muted-foreground">Computer Fundamentals</p>
+                  </div>
                 </a>
-              ))}
-            </div>
-          </motion.div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close navigation menu"
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+
+              <nav className="mt-8 space-y-2">
+                {navItems.map((item, index) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-primary/10 hover:text-foreground"
+                  >
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-primary">
+                      {index + 1}
+                    </span>
+                    <span>{item.label}</span>
+                  </a>
+                ))}
+              </nav>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }
