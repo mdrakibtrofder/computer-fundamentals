@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { HardDrive, Database, Layers, Disc, Save } from "lucide-react";
+import { HardDrive, Database, Layers, Disc, Save, Cpu, Brain, Server, Clock, Gauge } from "lucide-react";
 import { DeviceCard } from "./DeviceCard";
 
 import hddImage from "@/assets/devices/hdd.png";
