@@ -285,22 +285,8 @@ const otherPeripheralDevices = [
       "Terminals provide a direct communication channel between the user and the computer, especially for command entry, transaction processing, and remote access.",
     icon: Terminal,
   },
-  // {
-  //   name: "Speech Recognition and Voice Response Devices",
-  //   description:
-  //     "These devices allow computers to recognize spoken words as input and produce spoken responses as output. They are used in voice assistants, automated call centers, accessibility tools, and hands-free control systems.",
-  //   role:
-  //     "They improve human-computer interaction by enabling voice-based input and audio feedback without relying only on keyboards or screens.",
-  //   icon: AudioLines,
-  // },
-  // {
-  //   name: "Vision System",
-  //   description:
-  //     "A vision system uses cameras, sensors, and image-processing software to capture and interpret visual information. It is widely used in security systems, robotics, medical imaging, quality inspection, and automated manufacturing.",
-  //   role:
-  //     "It helps a computer observe objects, detect patterns, and make decisions based on images or video data.",
-  //   icon: Eye,
-  // },
+  // Storage Devices
+
   {
     name: "Modem",
     description:

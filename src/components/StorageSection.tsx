@@ -158,7 +158,7 @@ export function StorageSection() {
           className="text-center mb-16"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">Section H</span>
-          <h2 className="heading-2 mt-2 mb-4">Storage Devices</h2>
+          <h2 className="heading-2 mt-2 mb-4">Memory Organization</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Memory systems and storage hierarchies in modern computers
           </p>
