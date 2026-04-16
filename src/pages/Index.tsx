@@ -6,6 +6,7 @@ import { BinaryArithmeticSection } from "@/components/BinaryArithmeticSection";
 import { CodesAndOrganizationSection } from "@/components/CodesAndOrganizationSection";
 import { HardwareSection } from "@/components/HardwareSection";
 import { IODevicesSection } from "@/components/IODevicesSection";
+import { MicroprocessorSection } from "@/components/MicroprocessorSection";
 import { StorageSection } from "@/components/StorageSection";
 import { SoftwareSection } from "@/components/SoftwareSection";
 import { NetworksAndMaintenanceSection } from "@/components/NetworksAndMaintenanceSection";
@@ -25,6 +26,7 @@ const Index = () => {
         <CodesAndOrganizationSection />
         <HardwareSection />
         <IODevicesSection />
+        <MicroprocessorSection />
         <StorageSection />
         <SoftwareSection />
         <NetworksAndMaintenanceSection />
