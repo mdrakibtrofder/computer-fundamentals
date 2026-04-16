@@ -10,6 +10,7 @@ const navItems = [
   { label: "Codes & Organization", href: "#codes" },
   { label: "Hardware", href: "#hardware" },
   { label: "I/O Devices", href: "#io-devices" },
+  { label: "Microprocessor", href: "#microprocessor" },
   { label: "Storage", href: "#storage" },
   { label: "Software", href: "#software" },
   { label: "Networks", href: "#networks" },
