@@ -6,47 +6,24 @@ import { DeviceCard } from "./DeviceCard";
 import hddImage from "@/assets/devices/hdd.png";
 import ssdImage from "@/assets/devices/ssd.png";
 import usbDriveImage from "@/assets/devices/usb-drive.png";
+import romImage from "@/assets/devices/rom.jpg";
 import ramImage from "@/assets/devices/ram.png";
+import cacheImage from "@/assets/devices/cache.png";
+import floppyImage from "@/assets/devices/floppy.jpg";
 import opticalDiscImage from "@/assets/devices/optical-disc.png";
 import magneticTapeImage from "@/assets/devices/magnetic-tape.png";
 
 const storageDevices = [
   {
-    name: "Hard Disk Drive (HDD)",
-    image: hddImage,
-    shortDescription: "Magnetic storage device with spinning platters for large capacity data storage.",
-    howItWorks: "Read/write heads float on air cushion above rotating platters. Magnetic fields align particles on disk surface to represent binary data. Platters spin at 5400-7200 RPM.",
+    name: "ROM (Read-Only Memory)",
+    image: romImage,
+    shortDescription: "Non-volatile memory that retains data permanently, storing firmware and BIOS.",
+    howItWorks: "Data is written during manufacturing (mask ROM) or one-time programming (PROM). EPROM can be erased with UV light, EEPROM electrically. Retains data without power.",
     functionalities: [
-      "High Capacity (TB)",
-      "Non-volatile Storage",
-      "Sequential Access",
-      "Cost-effective",
-    ],
-    icon: HardDrive,
-  },
-  {
-    name: "Solid State Drive (SSD)",
-    image: ssdImage,
-    shortDescription: "Flash-based storage with no moving parts for faster, more reliable performance.",
-    howItWorks: "Uses NAND flash memory cells that trap electrons in floating gates. Controller manages wear leveling and garbage collection. No mechanical parts mean faster access times.",
-    functionalities: [
-      "Fast Read/Write",
-      "Low Latency",
-      "Shock Resistant",
-      "Silent Operation",
-    ],
-    icon: HardDrive,
-  },
-  {
-    name: "USB Flash Drive",
-    image: usbDriveImage,
-    shortDescription: "Portable flash memory storage device for file transfer between computers.",
-    howItWorks: "Contains NAND flash memory and USB controller. Plug-and-play connection provides power and data transfer. File system allows reading/writing like a hard drive.",
-    functionalities: [
-      "Portable Storage",
-      "Quick File Transfer",
-      "Bootable Media",
-      "Cross-platform",
+      "BIOS Storage",
+      "Firmware Storage",
+      "Boot Instructions",
+      "Permanent Programs",
     ],
     icon: Database,
   },
@@ -65,7 +42,7 @@ const storageDevices = [
   },
   {
     name: "Cache Memory",
-    image: ramImage,
+    image: cacheImage,
     shortDescription: "Ultra-fast SRAM between CPU and main memory to reduce access latency.",
     howItWorks: "Stores frequently accessed data and instructions. L1 cache is fastest (in CPU), L2 is larger, L3 is shared. Uses locality of reference principle for hit/miss optimization.",
     functionalities: [
@@ -77,44 +54,83 @@ const storageDevices = [
     icon: Layers,
   },
   {
-    name: "Optical Disc (CD/DVD/Blu-ray)",
-    image: opticalDiscImage,
-    shortDescription: "Removable media using laser technology to read/write data on reflective surface.",
-    howItWorks: "Laser reads pits and lands on disc surface. Light reflection differences create binary patterns. CD uses 780nm laser, DVD 650nm, Blu-ray 405nm for higher density.",
+    name: "Floppy Disk",
+    image: floppyImage,
+    shortDescription: "Legacy magnetic storage medium consisting of a thin, flexible disk inside a protective plastic shell.",
+    howItWorks: "A flexible mylar disk coated with magnetic material spins inside its housing. An electromagnetic read/write head makes physical contact with the surface through an access window to store data in concentric tracks and sectors.",
     functionalities: [
-      "Media Distribution",
-      "Data Archival",
-      "Movie Playback",
-      "Software Installation",
-    ],
-    icon: Disc,
-  },
-  {
-    name: "Magnetic Tape",
-    image: magneticTapeImage,
-    shortDescription: "Sequential access storage medium for long-term archival and backup purposes.",
-    howItWorks: "Magnetic tape winds between reels. Read/write head magnetizes tape surface in patterns. Sequential access means reading data in order from start to end.",
-    functionalities: [
-      "Backup Storage",
-      "Archival Storage",
-      "High Capacity",
-      "Low Cost per GB",
+      "Portable Data Transfer",
+      "Write-Protection (Slide Tab)",
+      "Direct Access Storage",
+      "Bootable Media Support",
     ],
     icon: Save,
   },
   {
-    name: "ROM (Read-Only Memory)",
-    image: ramImage,
-    shortDescription: "Non-volatile memory that retains data permanently, storing firmware and BIOS.",
-    howItWorks: "Data is written during manufacturing (mask ROM) or one-time programming (PROM). EPROM can be erased with UV light, EEPROM electrically. Retains data without power.",
+    name: "Hard Disk Drive (HDD)",
+    image: hddImage,
+    shortDescription: "Magnetic storage device with spinning platters for large capacity data storage.",
+    howItWorks: "Read/write heads float on air cushion above rotating platters. Magnetic fields align particles on disk surface to represent binary data. Platters spin at 5400-7200 RPM.",
     functionalities: [
-      "BIOS Storage",
-      "Firmware Storage",
-      "Boot Instructions",
-      "Permanent Programs",
+      "High Capacity (TB)",
+      "Non-volatile Storage",
+      "Sequential Access",
+      "Cost-effective",
     ],
-    icon: Database,
+    icon: HardDrive,
   },
+  // {
+  //   name: "Solid State Drive (SSD)",
+  //   image: ssdImage,
+  //   shortDescription: "Flash-based storage with no moving parts for faster, more reliable performance.",
+  //   howItWorks: "Uses NAND flash memory cells that trap electrons in floating gates. Controller manages wear leveling and garbage collection. No mechanical parts mean faster access times.",
+  //   functionalities: [
+  //     "Fast Read/Write",
+  //     "Low Latency",
+  //     "Shock Resistant",
+  //     "Silent Operation",
+  //   ],
+  //   icon: HardDrive,
+  // },
+  // {
+  //   name: "USB Flash Drive",
+  //   image: usbDriveImage,
+  //   shortDescription: "Portable flash memory storage device for file transfer between computers.",
+  //   howItWorks: "Contains NAND flash memory and USB controller. Plug-and-play connection provides power and data transfer. File system allows reading/writing like a hard drive.",
+  //   functionalities: [
+  //     "Portable Storage",
+  //     "Quick File Transfer",
+  //     "Bootable Media",
+  //     "Cross-platform",
+  //   ],
+  //   icon: Database,
+  // },
+  // {
+  //   name: "Optical Disc (CD/DVD/Blu-ray)",
+  //   image: opticalDiscImage,
+  //   shortDescription: "Removable media using laser technology to read/write data on reflective surface.",
+  //   howItWorks: "Laser reads pits and lands on disc surface. Light reflection differences create binary patterns. CD uses 780nm laser, DVD 650nm, Blu-ray 405nm for higher density.",
+  //   functionalities: [
+  //     "Media Distribution",
+  //     "Data Archival",
+  //     "Movie Playback",
+  //     "Software Installation",
+  //   ],
+  //   icon: Disc,
+  // },
+  // {
+  //   name: "Magnetic Tape",
+  //   image: magneticTapeImage,
+  //   shortDescription: "Sequential access storage medium for long-term archival and backup purposes.",
+  //   howItWorks: "Magnetic tape winds between reels. Read/write head magnetizes tape surface in patterns. Sequential access means reading data in order from start to end.",
+  //   functionalities: [
+  //     "Backup Storage",
+  //     "Archival Storage",
+  //     "High Capacity",
+  //     "Low Cost per GB",
+  //   ],
+  //   icon: Save,
+  // },
 ];
 
 const storageHierarchy = [
