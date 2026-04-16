@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Keyboard, Mouse, MonitorPlay, Printer, Mic, Camera, Video, Gamepad2, ScanBarcode, Fingerprint, PenTool, CircleDot, Volume2, Tv, Headphones } from "lucide-react";
+import { Keyboard, Mouse, MonitorPlay, Printer, Mic, Camera, Video, Gamepad2, ScanBarcode, Fingerprint, PenTool, CircleDot, Volume2, Tv, Headphones, Terminal, AudioLines, Eye, Router } from "lucide-react";
 import { DeviceCard } from "./DeviceCard";
 
 import keyboardImage from "@/assets/devices/keyboard.png";
@@ -276,6 +276,41 @@ const outputDevices = [
   },
 ];
 
+const otherPeripheralDevices = [
+  {
+    name: "Terminal",
+    description:
+      "A terminal is a device used to enter commands and receive text-based output from a computer system. It may include a keyboard and display, and it is commonly used in banking, ticketing, industrial control, and multi-user computer systems.",
+    role:
+      "Terminals provide a direct communication channel between the user and the computer, especially for command entry, transaction processing, and remote access.",
+    icon: Terminal,
+  },
+  {
+    name: "Speech Recognition and Voice Response Devices",
+    description:
+      "These devices allow computers to recognize spoken words as input and produce spoken responses as output. They are used in voice assistants, automated call centers, accessibility tools, and hands-free control systems.",
+    role:
+      "They improve human-computer interaction by enabling voice-based input and audio feedback without relying only on keyboards or screens.",
+    icon: AudioLines,
+  },
+  {
+    name: "Vision System",
+    description:
+      "A vision system uses cameras, sensors, and image-processing software to capture and interpret visual information. It is widely used in security systems, robotics, medical imaging, quality inspection, and automated manufacturing.",
+    role:
+      "It helps a computer observe objects, detect patterns, and make decisions based on images or video data.",
+    icon: Eye,
+  },
+  {
+    name: "Modem",
+    description:
+      "A modem is a communication device that converts digital computer signals into analog form for transmission and converts incoming analog signals back into digital form. It enables data communication over telephone lines, cable systems, or similar channels.",
+    role:
+      "A modem connects a computer or network to external communication systems, making internet and remote data exchange possible.",
+    icon: Router,
+  },
+];
+
 export function IODevicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -333,6 +368,58 @@ export function IODevicesSection() {
             {outputDevices.map((device, index) => (
               <DeviceCard key={device.name} {...device} delay={index * 0.05} />
             ))}
+          </div>
+        </motion.div>
+
+        {/* Other Peripheral Devices */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-16"
+        >
+          <h3 className="heading-3 mb-4 flex items-center gap-3">
+            <div className="p-3 rounded-xl bg-accent/10">
+              <Terminal className="w-6 h-6 text-accent" />
+            </div>
+            Other Peripheral Devices
+          </h3>
+          <p className="text-muted-foreground max-w-3xl mb-8">
+            Some peripherals do not fit only into traditional input or output categories. These devices support communication,
+            automation, accessibility, and machine interaction in specialized computing environments.
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+            {otherPeripheralDevices.map((device, index) => {
+              const Icon = device.icon;
+
+              return (
+                <motion.div
+                  key={device.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.08 }}
+                >
+                  <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover">
+                    <div className="flex items-start gap-4">
+                      <div className="rounded-xl bg-accent/10 p-3 shrink-0">
+                        <Icon className="w-5 h-5 text-accent" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold">{device.name}</h4>
+                        <p className="mt-3 text-sm leading-6 text-muted-foreground">{device.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 rounded-xl bg-muted/50 p-4">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-accent">Main Role</span>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">{device.role}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </div>
