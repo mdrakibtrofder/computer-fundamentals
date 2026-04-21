@@ -143,12 +143,12 @@ const storageHierarchy = [
   { level: "HDD", speed: "~10 ms", size: "1-20 TB", cost: "¢" },
 ];
 
-export function StorageSection() {
+export function MemorySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="storage" className="section-padding" ref={ref}>
+    <section id="memory-organization" className="section-padding" ref={ref}>
       <div className="container-custom">
         {/* Section Header */}
         <motion.div
@@ -160,16 +160,141 @@ export function StorageSection() {
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">Section H</span>
           <h2 className="heading-2 mt-2 mb-4">Memory Organization</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Memory systems and storage hierarchies in modern computers
+            Primary and secondary memory systems in modern computers
           </p>
         </motion.div>
 
-        {/* Storage Device Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {storageDevices.map((device, index) => (
-            <DeviceCard key={device.name} {...device} delay={index * 0.05} />
-          ))}
-        </div>
+        {/* Memory Overview */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-16"
+        >
+          <div className="bg-muted/30 rounded-xl p-6 md:p-8">
+            <h3 className="heading-3 mb-4">What is Memory?</h3>
+            <p className="text-muted-foreground mb-6">
+              Memory is the electronic holding place for instructions and data that can be accessed by the computer. 
+              It allows the CPU to store and retrieve information quickly for immediate processing. Memory is measured 
+              in bytes and is essential for any computer operation, from simple calculations to complex multitasking.
+            </p>
+
+            <h4 className="font-semibold mb-3">Classification of Computer Memory</h4>
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-card rounded-lg p-4 border">
+                <h5 className="font-semibold text-primary mb-2">Internal Processor Memory</h5>
+                <p className="text-sm text-muted-foreground">
+                  Located inside the CPU - includes registers (fastest, smallest) and cache memory (L1, L2, L3). 
+                  Provides ultra-fast data access for CPU operations with nanosecond latency.
+                </p>
+              </div>
+              <div className="bg-card rounded-lg p-4 border">
+                <h5 className="font-semibold text-primary mb-2">Main Memory</h5>
+                <p className="text-sm text-muted-foreground">
+                  Primary memory including RAM and ROM. RAM is volatile (loses data without power) for temporary data 
+                  storage; ROM is non-volatile for permanent firmware storage.
+                </p>
+              </div>
+              <div className="bg-card rounded-lg p-4 border">
+                <h5 className="font-semibold text-primary mb-2">Secondary Memory</h5>
+                <p className="text-sm text-muted-foreground">
+                  Non-volatile storage devices for permanent data: HDD, SSD, floppy disk, USB drives, 
+                  optical discs. Provides long-term data retention with larger capacities.
+                </p>
+              </div>
+            </div>
+
+            <h4 className="font-semibold mb-3">Primary vs Secondary Memory Comparison</h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-2">Aspect</th>
+                    <th className="text-left p-2">Primary Memory</th>
+                    <th className="text-left p-2">Secondary Memory</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Purpose</td>
+                    <td className="p-2">Temporary data processing</td>
+                    <td className="p-2">Permanent data storage</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Volatility</td>
+                    <td className="p-2">Volatile (RAM loses data)</td>
+                    <td className="p-2">Non-volatile (retains data)</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Speed</td>
+                    <td className="p-2">Very fast (~100ns)</td>
+                    <td className="p-2">Slow (~10ms for HDD)</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Capacity</td>
+                    <td className="p-2">Small (8-64 GB)</td>
+                    <td className="p-2">Large (TB scale)</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Cost per GB</td>
+                    <td className="p-2">Expensive ($)</td>
+                    <td className="p-2">Cheap (cents)</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Location</td>
+                    <td className="p-2">Directly accessed by CPU</td>
+                    <td className="p-2">via I/O controllers</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Examples</td>
+                    <td className="p-2">RAM, Cache, ROM</td>
+                    <td className="p-2">HDD, SSD, Floppy</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Access Type</td>
+                    <td className="p-2">Random access</td>
+                    <td className="p-2">Sequential/Direct access</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Primary Memory (ROM, RAM, Cache) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-12"
+        >
+          <h3 className="heading-3 mb-6 text-center">Primary Memory</h3>
+          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8">
+            Fast, volatile memory directly accessed by the CPU for immediate data processing
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {storageDevices.slice(0, 3).map((device, index) => (
+              <DeviceCard key={device.name} {...device} delay={index * 0.05} />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Secondary Memory (Floppy Disk, HDD) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <h3 className="heading-3 mb-6 text-center">Secondary Memory</h3>
+          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8">
+            Non-volatile storage for permanent data retention and long-term storage
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
+            {storageDevices.slice(3, 5).map((device, index) => (
+              <DeviceCard key={device.name} {...device} delay={index * 0.05} />
+            ))}
+          </div>
+        </motion.div>
 
         {/* Storage Hierarchy */}
         <motion.div

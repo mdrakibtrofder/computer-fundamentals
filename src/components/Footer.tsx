@@ -38,7 +38,7 @@ export function Footer() {
               <li>Computer History & Generations</li>
               <li>Number Systems & Codes</li>
               <li>Input/Output Devices</li>
-              <li>Storage & Memory</li>
+              <li>Memory Organization</li>
               <li>Software & Networks</li>
             </ul>
           </div>
