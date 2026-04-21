@@ -11,7 +11,7 @@ const navItems = [
   { label: "Hardware", href: "#hardware" },
   { label: "I/O Devices", href: "#io-devices" },
   { label: "Microprocessor", href: "#microprocessor" },
-  { label: "Storage", href: "#storage" },
+  { label: "Memory Organization", href: "#memory-organization" },
   { label: "Software", href: "#software" },
   { label: "Networks", href: "#networks" },
   { label: "Visualization", href: "#visualization" },

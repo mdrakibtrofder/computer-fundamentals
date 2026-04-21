@@ -142,19 +142,6 @@ const inputDevices = [
     icon: ScanBarcode,
   },
   {
-    name: "Digital Camera",
-    image: digitalCameraImage,
-    shortDescription: "Captures images using CCD/CMOS sensors and stores them digitally.",
-    howItWorks: "Light passes through lens onto image sensor. Millions of photosites convert light to electrical signals. ADC creates digital pixel data stored in memory.",
-    functionalities: [
-      "Photo Capture",
-      "Video Recording",
-      "Image Preview",
-      "Zoom Functions",
-    ],
-    icon: Camera,
-  },
-  {
     name: "Microphone",
     image: microphoneImage,
     shortDescription: "Converts sound waves into electrical signals for audio input.",
