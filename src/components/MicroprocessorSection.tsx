@@ -46,6 +46,13 @@ export function MicroprocessorSection() {
       icon: Workflow,
       color: "text-purple-500",
       bg: "bg-purple-500/10"
+    },
+    {
+      title: "MIMD (Multiple Instruction Multiple Data Stream)",
+      description: "Multiple processors execute different instructions on different data simultaneously. Used in distributed systems and parallel computing clusters.",
+      icon: Cpu,
+      color: "text-orange-500",
+      bg: "bg-orange-500/10"
     }
   ];
 
@@ -110,6 +117,87 @@ export function MicroprocessorSection() {
             </ul>
           </motion.div>
         </div>
+
+        {/* Instruction Execution Concepts */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="bg-card rounded-2xl p-8 shadow-card mb-16"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-xl bg-accent/10">
+              <Settings className="w-6 h-6 text-accent" />
+            </div>
+            <h3 className="text-xl font-bold">Functions for Execution of Instructions</h3>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines the instruction to be executed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines the operation to be performed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines what data are needed and where they are stored</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines where results, if any, are to be stored</span>
+              </li>
+            </ul>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines where the next instruction is located</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Causes the instruction to be executed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Transfers control to the next instruction</span>
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+
+        {/* Instruction Execution Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 rounded-3xl p-8 mb-16 border border-accent/10"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-xl bg-accent/10">
+              <Clock className="w-6 h-6 text-accent" />
+            </div>
+            <h3 className="text-2xl font-bold">Instruction Execution</h3>
+          </div>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            The instruction is retrieved from storage, interpreted, and executed. These functions generally require at least two machine cycles called <strong>Instruction Cycle</strong> and <strong>Execution Cycle</strong>.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <h4 className="font-bold text-lg mb-3 text-primary">Instruction Cycle</h4>
+              <p className="text-sm text-muted-foreground">
+                The phase where the instruction is fetched from memory and decoded. This cycle determines what operation needs to be performed.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <h4 className="font-bold text-lg mb-3 text-accent">Execution Cycle</h4>
+              <p className="text-sm text-muted-foreground">
+                The remaining machine cycles in the execution of an instruction. The execution cycle may consist of more than one machine cycle. Throughout this cycle, operations are controlled by the instruction register.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* ALU & Control Unit */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
@@ -216,7 +304,7 @@ export function MicroprocessorSection() {
               <div className="p-2 rounded-lg bg-secondary/10">
                 <Layers className="w-6 h-6 text-secondary" />
               </div>
-              Introduction to Multiprocessing
+              Parallel Processing
             </h3>
             <p className="text-muted-foreground max-w-3xl mx-auto">
               <strong>Parallel processing (PP)</strong> is processing an algorithm simultaneously by several processors.
@@ -225,7 +313,7 @@ export function MicroprocessorSection() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {architectures.map((arch, index) => (
               <motion.div
                 key={arch.title}
