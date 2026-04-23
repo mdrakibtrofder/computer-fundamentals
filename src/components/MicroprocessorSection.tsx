@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   Cpu,
   Brain,
@@ -9,12 +9,15 @@ import {
   Layers,
   Zap,
   ArrowRight,
-  Workflow
+  Workflow,
+  ChevronDown,
+  Terminal
 } from "lucide-react";
 
 export function MicroprocessorSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const functions = [
     "The processor first fetches an instruction from the main memory.",
@@ -27,29 +30,41 @@ export function MicroprocessorSection() {
 
   const architectures = [
     {
+      id: "sisd",
       title: "SISD (Single Instruction Single Data Stream)",
-      description: "Conventional computers where one CPU performs one instruction at a time. Represents serial architecture. Example: Simple microwave oven controller",
+      description: "Conventional computers where one CPU performs one instruction at a time. Represents serial architecture. Example: Simple microwave oven controller.",
+      task: "Create a nilphamari.txt file.",
+      code: 'New-Item -Path "nilphamari.txt" -ItemType "File"',
       icon: ArrowRight,
       color: "text-blue-500",
       bg: "bg-blue-500/10"
     },
     {
+      id: "simd",
       title: "SIMD (Single Instruction Multiple Data Stream)",
       description: "Same instruction is executed simultaneously by several processors. Throughput can be N times more. Examples: pipelined vector and array processors.",
+      task: "Create dinajpur.txt, rangpur.txt, and joypurhat.txt in one command.",
+      code: '"dinajpur.txt", "rangpur.txt", "joypurhat.txt" | ForEach-Object { New-Item -Path $_ -ItemType "File" }',
       icon: Layers,
       color: "text-green-500",
       bg: "bg-green-500/10"
     },
     {
+      id: "misd",
       title: "MISD (Multiple Instruction Single Data Stream)",
       description: "Several instructions operate on a data item simultaneously. Useful in specialized applications like robot vision.",
+      task: "Create nilphamari in .docx, .xlsx, and .pptx, uppercase the name, and add double underscores.",
+      code: `"nilphamari" | ForEach-Object { \n    $upper = $_.ToUpper(); \n    $formatted = "__" + $upper + "__";\n    New-Item -Path "$formatted.docx" -ItemType "File";\n    New-Item -Path "$formatted.xlsx" -ItemType "File";\n    New-Item -Path "$formatted.pptx" -ItemType "File"\n}`,
       icon: Workflow,
       color: "text-purple-500",
       bg: "bg-purple-500/10"
     },
     {
+      id: "mimd",
       title: "MIMD (Multiple Instruction Multiple Data Stream)",
       description: "Multiple processors execute different instructions on different data simultaneously. Used in distributed systems and parallel computing clusters.",
+      task: "Create formatted files for dinajpur, rangpur, and joypurhat in all three formats simultaneously.",
+      code: `"dinajpur", "rangpur", "joypurhat" | ForEach-Object -Parallel {\n    $name = ("__" + $_.ToUpper() + "__");\n    New-Item -Path "$name.docx" -ItemType "File";\n    New-Item -Path "$name.xlsx" -ItemType "File";\n    New-Item -Path "$name.pptx" -ItemType "File"\n}`,
       icon: Cpu,
       color: "text-orange-500",
       bg: "bg-orange-500/10"
@@ -294,32 +309,32 @@ export function MicroprocessorSection() {
 
         {/* Parallel Processing */}
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-center mb-10"
-          >
-            <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
-              <div className="p-2 rounded-lg bg-secondary/10">
-                <Layers className="w-6 h-6 text-secondary" />
-              </div>
-              Parallel Processing
-            </h3>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              <strong>Parallel processing (PP)</strong> is processing an algorithm simultaneously by several processors.
-              <strong> Distributed processing</strong> is processing multiple algorithms simultaneously by several processors.
-              Both are known as multiprocessing. 
-              <br />
-              The hardware that can be used for parallel processing is known as parallel architecture. There are two types of parallel architecture: Homogeneous and Heterogeneous.
-            </p>
-          </motion.div>
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="text-center mb-10"
+        >
+          <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
+            <div className="p-2 rounded-lg bg-secondary/10">
+              <Layers className="w-6 h-6 text-secondary" />
+            </div>
+            Parallel Processing
+          </h3>
+          <p className="text-muted-foreground max-w-3xl mx-auto">
+            <strong>Parallel processing (PP)</strong> is processing an algorithm simultaneously by several processors.
+            <strong> Distributed processing</strong> is processing multiple algorithms simultaneously by several processors.
+            Both are known as multiprocessing. 
+            <br />
+            The hardware that can be used for parallel processing is known as parallel architecture. There are two types of parallel architecture: Homogeneous and Heterogeneous.
+          </p>
+        </motion.div>
 
         {/* Homogeneous vs Heterogeneous */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 1.1 }}
-          className="grid md:grid-cols-2 gap-6"
+          className="grid md:grid-cols-2 gap-6 mb-16"
         >
           <div className="p-6 rounded-2xl bg-muted/30 border border-border">
             <h4 className="font-bold text-lg mb-2">Homogeneous Systems</h4>
@@ -331,49 +346,81 @@ export function MicroprocessorSection() {
           </div>
         </motion.div>
 
-        {/* Multiprocessing */}
-        <div className="mb-16">
-
-
-
+        {/* Classification of Parallel Architectures */}
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-center mb-10 mt-12"
-          >
-            <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
-              <div className="p-2 rounded-lg bg-secondary/10">
-                <Layers className="w-6 h-6 text-secondary" />
-              </div>
-              Classification of Parallel Architectures
-            </h3>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              Parallel architectures are primarily classified by Flynn’s Taxonomy into SISD, SIMD, MISD, and MIMD categories based on the concurrent flow of instructions and data.
-            </p>
-          </motion.div>
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="text-center mb-10"
+        >
+          <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
+            <div className="p-2 rounded-lg bg-secondary/10">
+              <Layers className="w-6 h-6 text-secondary" />
+            </div>
+            Classification of Parallel Architectures
+          </h3>
+          <p className="text-muted-foreground max-w-3xl mx-auto">
+            Parallel architectures are primarily classified by Flynn's Taxonomy into SISD, SIMD, MISD, and MIMD categories based on the concurrent flow of instructions and data.
+          </p>
+        </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {architectures.map((arch, index) => (
-              <motion.div
-                key={arch.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                className="bg-card rounded-2xl p-6 shadow-card hover:shadow-card-hover transition-all border border-border"
-              >
-                <div className={`p-3 rounded-xl ${arch.bg} w-fit mb-4`}>
+        {/* Updated Collapsible Architecture Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-16">
+          {architectures.map((arch, index) => (
+            <motion.div
+              key={arch.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+              className={`group bg-card rounded-2xl p-6 shadow-card border border-border cursor-pointer transition-all hover:border-primary/50 ${
+                expandedId === arch.id ? "ring-2 ring-primary" : ""
+              }`}
+              onClick={() => setExpandedId(expandedId === arch.id ? null : arch.id)}
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-xl ${arch.bg} w-fit`}>
                   <arch.icon className={`w-6 h-6 ${arch.color}`} />
                 </div>
-                <h4 className="font-bold mb-3">{arch.title}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {arch.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+                <motion.div
+                  animate={{ rotate: expandedId === arch.id ? 180 : 0 }}
+                  className="text-muted-foreground"
+                >
+                  <ChevronDown className="w-5 h-5" />
+                </motion.div>
+              </div>
+              
+              <h4 className="font-bold mb-2 group-hover:text-primary transition-colors">{arch.title}</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                {arch.description}
+              </p>
 
+              <AnimatePresence>
+                {expandedId === arch.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 pt-4 border-t border-border space-y-3">
+                      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                        <Terminal className="w-3 h-3" />
+                        PowerShell Implementation
+                      </div>
+                      <div className="bg-muted/50 p-3 rounded-lg border border-border">
+                        <p className="text-xs font-semibold mb-2">Task: <span className="font-normal text-muted-foreground">{arch.task}</span></p>
+                        <pre className="text-[11px] font-mono text-foreground leading-tight overflow-x-auto whitespace-pre-wrap">
+                          <code>{arch.code}</code>
+                        </pre>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
