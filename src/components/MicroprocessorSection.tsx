@@ -28,7 +28,7 @@ export function MicroprocessorSection() {
   const architectures = [
     {
       title: "SISD (Single Instruction Single Data Stream)",
-      description: "Conventional computers where one CPU performs one instruction at a time. Represents serial architecture.",
+      description: "Conventional computers where one CPU performs one instruction at a time. Represents serial architecture. Example: Simple microwave oven controller",
       icon: ArrowRight,
       color: "text-blue-500",
       bg: "bg-blue-500/10"
@@ -118,87 +118,6 @@ export function MicroprocessorSection() {
           </motion.div>
         </div>
 
-        {/* Instruction Execution Concepts */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="bg-card rounded-2xl p-8 shadow-card mb-16"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-xl bg-accent/10">
-              <Settings className="w-6 h-6 text-accent" />
-            </div>
-            <h3 className="text-xl font-bold">Functions for Execution of Instructions</h3>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Determines the instruction to be executed</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Determines the operation to be performed</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Determines what data are needed and where they are stored</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Determines where results, if any, are to be stored</span>
-              </li>
-            </ul>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Determines where the next instruction is located</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Causes the instruction to be executed</span>
-              </li>
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                <span>Transfers control to the next instruction</span>
-              </li>
-            </ul>
-          </div>
-        </motion.div>
-
-        {/* Instruction Execution Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 rounded-3xl p-8 mb-16 border border-accent/10"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-xl bg-accent/10">
-              <Clock className="w-6 h-6 text-accent" />
-            </div>
-            <h3 className="text-2xl font-bold">Instruction Execution</h3>
-          </div>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            The instruction is retrieved from storage, interpreted, and executed. These functions generally require at least two machine cycles called <strong>Instruction Cycle</strong> and <strong>Execution Cycle</strong>.
-          </p>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card p-6 rounded-2xl border border-border">
-              <h4 className="font-bold text-lg mb-3 text-primary">Instruction Cycle</h4>
-              <p className="text-sm text-muted-foreground">
-                The phase where the instruction is fetched from memory and decoded. This cycle determines what operation needs to be performed.
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-2xl border border-border">
-              <h4 className="font-bold text-lg mb-3 text-accent">Execution Cycle</h4>
-              <p className="text-sm text-muted-foreground">
-                The remaining machine cycles in the execution of an instruction. The execution cycle may consist of more than one machine cycle. Throughout this cycle, operations are controlled by the instruction register.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
         {/* ALU & Control Unit */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           <motion.div
@@ -211,7 +130,7 @@ export function MicroprocessorSection() {
               <div className="p-3 rounded-xl bg-accent/10">
                 <Calculator className="w-6 h-6 text-accent" />
               </div>
-              <h3 className="text-xl font-bold">Arithmetic/Logic Unit (ALU)</h3>
+              <h3 className="text-xl font-bold">Arithmetic Logic Unit (ALU)</h3>
             </div>
             <p className="text-muted-foreground mb-6">
               The data processing unit of the microprocessor. Its functions include:
@@ -286,15 +205,95 @@ export function MicroprocessorSection() {
             <div>
               <h3 className="text-2xl font-bold mb-4">The Machine Cycle</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Intervals are controlled by an internal electronic clock that emits millions of pulses every second (measured in <strong>MHz</strong>). A fixed number of clock pulses determines the <strong>machine cycle</strong>. During one cycle, the computer can perform one machine operation. The number of operations to execute a single instruction varies.
+                A machine cycle is the basic operation performed by a Central Processing Unit (CPU) to execute a single machine-level instruction. Intervals are controlled by an internal electronic clock that emits millions of pulses every second (measured in <strong>MHz</strong>). A fixed number of clock pulses determines the <strong>machine cycle</strong>. During one cycle, the computer can perform one machine operation.
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* Multiprocessing */}
-        <div className="mb-16">
-          <motion.div
+        {/* Instruction Execution Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 rounded-3xl p-8 mb-16 border border-accent/10"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-xl bg-accent/10">
+              <Clock className="w-6 h-6 text-accent" />
+            </div>
+            <h3 className="text-2xl font-bold">Instruction Execution</h3>
+          </div>
+          <p className="text-muted-foreground leading-relaxed mb-6">
+            The instruction is retrieved from storage, interpreted, and executed. These functions generally require at least two machine cycles called <strong>Instruction Cycle</strong> and <strong>Execution Cycle</strong>.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <h4 className="font-bold text-lg mb-3 text-primary">Instruction Cycle</h4>
+              <p className="text-sm text-muted-foreground">
+                The instruction cycle is the first machine cycle in the execution of an instruction. It consists of a continuous sequence of stages, primarily fetching the instruction from memory, decoding it into commands, and executing the required action.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <h4 className="font-bold text-lg mb-3 text-accent">Execution Cycle</h4>
+              <p className="text-sm text-muted-foreground">
+                The remaining machine cycles in the execution of an instruction. The execution cycle may consist of more than one machine cycle. Throughout this cycle, operations are controlled by the instruction register.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Instruction Execution Concepts */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="bg-card rounded-2xl p-8 shadow-card mb-16"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-xl bg-accent/10">
+              <Settings className="w-6 h-6 text-accent" />
+            </div>
+            <h3 className="text-xl font-bold">Functions for Execution of Instructions</h3>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines the instruction to be executed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines the operation to be performed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines what data are needed and where they are stored</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines where results, if any, are to be stored</span>
+              </li>
+            </ul>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Determines where the next instruction is located</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Causes the instruction to be executed</span>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-muted-foreground">
+                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span>Transfers control to the next instruction</span>
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+
+        {/* Parallel Processing */}
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.7 }}
@@ -308,8 +307,49 @@ export function MicroprocessorSection() {
             </h3>
             <p className="text-muted-foreground max-w-3xl mx-auto">
               <strong>Parallel processing (PP)</strong> is processing an algorithm simultaneously by several processors.
-              <strong>Distributed processing</strong> is processing multiple algorithms simultaneously by several processors.
-              Both are known as multiprocessing.
+              <strong> Distributed processing</strong> is processing multiple algorithms simultaneously by several processors.
+              Both are known as multiprocessing. 
+              <br />
+              The hardware that can be used for parallel processing is known as parallel architecture. There are two types of parallel architecture: Homogeneous and Heterogeneous.
+            </p>
+          </motion.div>
+
+        {/* Homogeneous vs Heterogeneous */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          className="grid md:grid-cols-2 gap-6"
+        >
+          <div className="p-6 rounded-2xl bg-muted/30 border border-border">
+            <h4 className="font-bold text-lg mb-2">Homogeneous Systems</h4>
+            <p className="text-sm text-muted-foreground">In conventional parallel systems, all processing elements (PEs) are identical. This consistency makes it much easier to manage tasks, since every processor handles work at the same speed and efficiency.</p>
+          </div>
+          <div className="p-6 rounded-2xl bg-muted/30 border border-border">
+            <h4 className="font-bold text-lg mb-2">Heterogeneous Systems</h4>
+            <p className="text-sm text-muted-foreground">Mixed PE-based (processing elements based) architectures comprising a variety of PEs to handle various computational demands. By using specialized cores for specific tasks, these systems achieve much higher efficiency and performance than designs using only one type of processor.</p>
+          </div>
+        </motion.div>
+
+        {/* Multiprocessing */}
+        <div className="mb-16">
+
+
+
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="text-center mb-10 mt-12"
+          >
+            <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
+              <div className="p-2 rounded-lg bg-secondary/10">
+                <Layers className="w-6 h-6 text-secondary" />
+              </div>
+              Classification of Parallel Architectures
+            </h3>
+            <p className="text-muted-foreground max-w-3xl mx-auto">
+              Parallel architectures are primarily classified by Flynn’s Taxonomy into SISD, SIMD, MISD, and MIMD categories based on the concurrent flow of instructions and data.
             </p>
           </motion.div>
 
@@ -334,22 +374,6 @@ export function MicroprocessorSection() {
           </div>
         </div>
 
-        {/* Homogeneous vs Heterogeneous */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.1 }}
-          className="grid md:grid-cols-2 gap-6"
-        >
-          <div className="p-6 rounded-2xl bg-muted/30 border border-border">
-            <h4 className="font-bold text-lg mb-2">Homogeneous Systems</h4>
-            <p className="text-sm text-muted-foreground">In conventional parallel systems, all processing elements (PEs) are identical.</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-muted/30 border border-border">
-            <h4 className="font-bold text-lg mb-2">Heterogeneous Systems</h4>
-            <p className="text-sm text-muted-foreground">Mixed PE-based architectures comprising a variety of PEs to handle various computational demands.</p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
