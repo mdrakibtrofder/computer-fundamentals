@@ -134,13 +134,11 @@ const storageDevices = [
 ];
 
 const storageHierarchy = [
-  { level: "Registers", speed: "< 1 ns", size: "< 1 KB", cost: "$$$$" },
-  { level: "L1 Cache", speed: "~1 ns", size: "32-64 KB", cost: "$$$" },
-  { level: "L2 Cache", speed: "~4 ns", size: "256 KB-1 MB", cost: "$$$" },
-  { level: "L3 Cache", speed: "~10 ns", size: "4-32 MB", cost: "$$" },
-  { level: "RAM", speed: "~100 ns", size: "8-64 GB", cost: "$" },
-  { level: "SSD", speed: "~100 μs", size: "256 GB-4 TB", cost: "$" },
-  { level: "HDD", speed: "~10 ms", size: "1-20 TB", cost: "¢" },
+  { level: "Registers", speed: "< 1 ns", size: "< 1 KB", cost: "$$$$$" },
+  { level: "Build in Cache", speed: "~0.5-1 ns", size: "32-64 KB", cost: "$$$$" },
+  { level: "External Cache", speed: "~3-5 ns", size: "256 KB - 1 MB", cost: "$$$" },
+  { level: "Primary Memory (RAM)", speed: "~50-100 ns", size: "4-64 GB", cost: "$$" },
+  { level: "Secondary Memory", speed: "~50-100 μs", size: "256 GB - 4 TB", cost: "$" },
 ];
 
 export function MemorySection() {
@@ -204,56 +202,46 @@ export function MemorySection() {
               </div>
             </div>
 
-            <h4 className="font-semibold mb-3">Primary vs Secondary Memory Comparison</h4>
+            <h4 className="font-semibold mb-3">Comparison of Primary Memory and Secondary Memory</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left p-2">Aspect</th>
+                    <th className="text-left p-2">Characteristics</th>
                     <th className="text-left p-2">Primary Memory</th>
                     <th className="text-left p-2">Secondary Memory</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b">
-                    <td className="p-2 font-medium">Purpose</td>
-                    <td className="p-2">Temporary data processing</td>
-                    <td className="p-2">Permanent data storage</td>
+                    <td className="p-2 font-medium">Location with respect to the CPU</td>
+                    <td className="p-2">Inside/Outside and directly accessible by the CPU.</td>
+                    <td className="p-2">Outside the CPU and not directly accessible by the CPU.</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="p-2 font-medium">Volatility</td>
-                    <td className="p-2">Volatile (RAM loses data)</td>
-                    <td className="p-2">Non-volatile (retains data)</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Speed</td>
-                    <td className="p-2">Very fast (~100ns)</td>
-                    <td className="p-2">Slow (~10ms for HDD)</td>
+                    <td className="p-2 font-medium">Cost</td>
+                    <td className="p-2">Most Expensive.</td>
+                    <td className="p-2">Less expensive than primary storage.</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-medium">Capacity</td>
-                    <td className="p-2">Small (8-64 GB)</td>
-                    <td className="p-2">Large (TB scale)</td>
+                    <td className="p-2">Lower capacity as compared to secondary memory.</td>
+                    <td className="p-2">Higher capacity as compared to primary memory.</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="p-2 font-medium">Cost per GB</td>
-                    <td className="p-2">Expensive ($)</td>
-                    <td className="p-2">Cheap (cents)</td>
+                    <td className="p-2 font-medium">Average Access Time</td>
+                    <td className="p-2">Primary memory average access time is in billions of a second.</td>
+                    <td className="p-2">Secondary memory average access time is in millons of a second.</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="p-2 font-medium">Location</td>
-                    <td className="p-2">Directly accessed by CPU</td>
-                    <td className="p-2">via I/O controllers</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Examples</td>
-                    <td className="p-2">RAM, Cache, ROM</td>
-                    <td className="p-2">HDD, SSD, Floppy</td>
+                    <td className="p-2 font-medium">Medium of storing information</td>
+                    <td className="p-2">Semiconductor chips</td>
+                    <td className="p-2">Magnetic Tape, Magnetic Disk, Optical Disk</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-medium">Access Type</td>
-                    <td className="p-2">Random access</td>
-                    <td className="p-2">Sequential/Direct access</td>
+                    <td className="p-2">Primary memory's access type is Random access</td>
+                    <td className="p-2">Secondary memory's access type is Sequential/Direct access</td>
                   </tr>
                 </tbody>
               </table>
