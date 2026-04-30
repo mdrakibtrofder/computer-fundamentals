@@ -180,19 +180,19 @@ function SyntaxHighlighter({ code, lang }: { code: string; lang: string }) {
     if (language === "c" || language === "java") {
       return line
         .replace(/(\/\/.*)/g, '<span class="text-zinc-500 italic">$1</span>') // Comments
-        .replace(/(".*?")/g, '<span class="text-emerald-400">$1</span>') // Strings
-        .replace(/\b(int|return|public|class|static|void|String|if|else|for|while|include)\b/g, '<span class="text-purple-400 font-semibold">$1</span>') // Keywords
-        .replace(/\b(printf|System|out|println|main)\b/g, '<span class="text-blue-400">$1</span>'); // Functions/Classes
+        .replace(/(".*?")/g, '<span class="text-emerald-600 font-medium">$1</span>') // Strings
+        .replace(/\b(int|return|public|class|static|void|String|if|else|for|while|include)\b/g, '<span class="text-purple-600 font-semibold">$1</span>') // Keywords
+        .replace(/\b(printf|System|out|println|main)\b/g, '<span class="text-blue-600 font-medium">$1</span>'); // Functions/Classes
     }
     
     if (language === "html") {
       return line
         .replace(/(<!--.*?-->)/g, '<span class="text-zinc-500 italic">$1</span>') // Comments
-        .replace(/(&lt;!DOCTYPE.*?&gt;)/gi, '<span class="text-orange-400 font-bold">$1</span>') // Doctype
-        .replace(/(&lt;\/?[a-z0-9]+\b)/gi, '<span class="text-pink-500 font-semibold">$1</span>') // Tag Start
-        .replace(/(&gt;)/g, '<span class="text-pink-500 font-semibold">$1</span>') // Tag End
-        .replace(/(\b[a-z-]+(?==))/gi, '<span class="text-yellow-400 italic">$1</span>') // Attributes
-        .replace(/(".*?")/g, '<span class="text-emerald-400 font-medium">$1</span>'); // Attribute Values
+        .replace(/(&lt;!DOCTYPE.*?&gt;)/gi, '<span class="text-orange-600 font-bold">$1</span>') // Doctype
+        .replace(/(&lt;\/?[a-z0-9]+\b)/gi, '<span class="text-pink-600 font-semibold">$1</span>') // Tag Start
+        .replace(/(&gt;)/g, '<span class="text-pink-600 font-semibold">$1</span>') // Tag End
+        .replace(/(\b[a-z-]+(?==))/gi, '<span class="text-amber-600 italic">$1</span>') // Attributes
+        .replace(/(".*?")/g, '<span class="text-emerald-600 font-medium">$1</span>'); // Attribute Values
     }
     
     return line;
@@ -427,7 +427,7 @@ export function SoftwareSection() {
                             )}
                           </Button>
                         </div>
-                        <div className="rounded-2xl bg-zinc-950 p-6 overflow-x-auto border border-zinc-800 shadow-2xl">
+                        <div className="rounded-2xl bg-muted/40 p-6 overflow-x-auto border border-border shadow-sm">
                           <SyntaxHighlighter code={lang.code} lang={lang.lang} />
                         </div>
                         <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground px-2">
