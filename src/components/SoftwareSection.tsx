@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Layers, Settings, FileCode, Cpu, Terminal, BookOpen, CheckCircle2, Copy, Check, Globe, AlertTriangle, Zap, ArrowRightLeft } from "lucide-react";
+import { Layers, Settings, FileCode, Cpu, Terminal, BookOpen, CheckCircle2, Copy, Check, Globe, AlertTriangle, Zap, ArrowRightLeft, Scale } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 /* ═══════════════════════════════════════════
    Definitions Data
@@ -140,28 +141,33 @@ const systemSoftwareGroups = [
   { name: "Utility programs", icon: Zap },
 ];
 
-const translators = [
+const machineLanguageDisadvantages = [
+  "The program must be written in machine language (ie., with Is and 0s)",
+  "Entering machine language program is a tedious process",
+  "Error detection and correction is tedious and consumes much time",
+  "Programs writen in machine language for a specific machine cannot be used for another type of machine."
+];
+
+const comparisonData = [
   {
-    name: "Machine language",
-    desc: "The machine language is written in words comprising of Is and Os. Computers execute commands or instructions in machine language.",
-    disadvantages: [
-      "The program must be written in machine language (ie., with Is and 0s)",
-      "Entering machine language program is a tedious process",
-      "Error detection and correction is tedious and consumes much time",
-      "Programs writen in machine language for a specific machine cannot be used for another type of machine."
-    ],
-    icon: "0️⃣1️⃣"
+    feature: "Program Preparation",
+    compiler: "Compiler prepares an object program from source program",
+    interpreter: "Interpreter translates and immediately executes each instruction of the source program"
   },
   {
-    name: "Assembler",
-    desc: "Programming in assembly language is easier than programming in machine language. The programmer is required to write a source code for each instruction in the program and the assembler translates in to machine language. The programmer maintains total control of the computer operation.",
-    icon: "⚙️"
+    feature: "Debugging",
+    compiler: "Debugging is complex and time consuming",
+    interpreter: "It is a debugging tool and is useful during program development stage"
   },
   {
-    name: "Compiler and Interpreter",
-    desc: "A Compiler is a program that translates programs written in high level language into machine language. The compiler generates several machine language instructions for each source statement. An assembler or a compiler produces the object program, which is loaded into the computer memory before execution.",
-    extra: "The interpreter does not prepare an object program. It translates and immediately executes each instruction of the source program. Thus an interpretive language is also an interactive language: it enables the user to load one instruction into the computer at a time and have it translated and executed.",
-    icon: "🔄"
+    feature: "Execution Time",
+    compiler: "Lower execution time",
+    interpreter: "Higher execution time"
+  },
+  {
+    feature: "Development Effort",
+    compiler: "Requires higher program development effort and time",
+    interpreter: "Requires less program development effort and time"
   }
 ];
 
@@ -471,54 +477,113 @@ export function SoftwareSection() {
           </div>
 
           {/* Language Translators Detailed */}
-          <div className="space-y-12">
+          <div className="space-y-12 mb-20">
             <h3 className="heading-3 text-center mb-10">Language Translators</h3>
             
-            {translators.map((translator, index) => (
-              <motion.div
-                key={translator.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="bg-card rounded-3xl p-8 shadow-card border border-border/50"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="text-4xl">{translator.icon}</span>
-                  <h4 className="heading-4 text-primary">{translator.name}</h4>
-                </div>
-                
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {translator.desc}
+            {/* Machine Language Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-card rounded-3xl p-8 shadow-card border border-border/50"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-4xl">0️⃣1️⃣</span>
+                <h4 className="heading-4 text-primary">Machine language</h4>
+              </div>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                The machine language is written in words comprising of Is and Os. Computers execute commands or instructions in machine language.
+              </p>
+              <div className="bg-destructive/5 rounded-2xl p-6 border border-destructive/10">
+                <h5 className="font-bold text-destructive mb-4 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5" />
+                  Disadvantages:
+                </h5>
+                <ul className="space-y-3">
+                  {machineLanguageDisadvantages.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                      <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+
+            {/* Assembler Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-card rounded-3xl p-8 shadow-card border border-border/50"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-4xl">⚙️</span>
+                <h4 className="heading-4 text-primary">Assembler</h4>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Programming in assembly language is easier than programming in machine language. The programmer is required to write a source code for each instruction in the program and the assembler translates in to machine language. The programmer maintains total control of the computer operation.
+              </p>
+            </motion.div>
+
+            {/* Compiler and Interpreter Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-card rounded-3xl p-8 shadow-card border border-border/50"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-4xl">🔄</span>
+                <h4 className="heading-4 text-primary">Compiler and Interpreter</h4>
+              </div>
+              <div className="space-y-6">
+                <p className="text-muted-foreground leading-relaxed">
+                  A Compiler is a program that translates programs written in high level language into machine language. The compiler generates several machine language instructions for each source statement. An assembler or a compiler produces the object program, which is loaded into the computer memory before execution.
                 </p>
-
-                {translator.disadvantages && (
-                  <div className="bg-destructive/5 rounded-2xl p-6 border border-destructive/10">
-                    <h5 className="font-bold text-destructive mb-4 flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5" />
-                      Disadvantages:
-                    </h5>
-                    <ul className="space-y-3">
-                      {translator.disadvantages.map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                          <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1.5 shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {translator.extra && (
-                  <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10 mt-6">
-                    <p className="text-sm text-muted-foreground leading-relaxed italic">
-                      {translator.extra}
-                    </p>
-                  </div>
-                )}
-              </motion.div>
-            ))}
+                <p className="text-muted-foreground leading-relaxed">
+                  The interpreter does not prepare an object program. It translates and immediately executes each instruction of the source program. Thus an interpretive language is also an interactive language: it enables the user to load one instruction into the computer at a time and have it translated and executed.
+                </p>
+              </div>
+            </motion.div>
           </div>
+
+          {/* Comparison Table Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-10 mb-20"
+          >
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+                <Scale className="w-4 h-4" />
+                Comparison
+              </div>
+              <h3 className="heading-3">Compiler vs Interpreter</h3>
+            </div>
+
+            <div className="bg-card rounded-3xl border border-border/50 shadow-card overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted/50 hover:bg-muted/50">
+                    <TableHead className="w-[200px] font-bold text-foreground">Feature</TableHead>
+                    <TableHead className="font-bold text-primary">Compiler</TableHead>
+                    <TableHead className="font-bold text-secondary">Interpreter</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {comparisonData.map((row, index) => (
+                    <TableRow key={index} className="hover:bg-muted/30 transition-colors">
+                      <TableCell className="font-semibold text-muted-foreground">{row.feature}</TableCell>
+                      <TableCell className="leading-relaxed">{row.compiler}</TableCell>
+                      <TableCell className="leading-relaxed">{row.interpreter}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
