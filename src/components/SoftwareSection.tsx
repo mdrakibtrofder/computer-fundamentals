@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Layers, Settings, FileCode, Cpu, Terminal, BookOpen, CheckCircle2, Copy, Check, Globe } from "lucide-react";
+import { Layers, Settings, FileCode, Cpu, Terminal, BookOpen, CheckCircle2, Copy, Check, Globe, AlertTriangle, Zap, ArrowRightLeft } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -131,6 +131,37 @@ const languageDetails = [
     desc: "HyperText Markup Language creates hypertext documents. It embeds control codes in text that designate titles, headings, graphics, and hyperlinks.",
     code: `<!DOCTYPE html>\n<html>\n<body>\n    <h1>Department of English</h1>\n    <p>Bangladesh Army University of Science and Technology, Saidpur</p>\n</body>\n</html>`,
     lang: "html"
+  }
+];
+
+const systemSoftwareGroups = [
+  { name: "Operating systems", icon: Settings },
+  { name: "Language translators", icon: ArrowRightLeft },
+  { name: "Utility programs", icon: Zap },
+];
+
+const translators = [
+  {
+    name: "Machine language",
+    desc: "The machine language is written in words comprising of Is and Os. Computers execute commands or instructions in machine language.",
+    disadvantages: [
+      "The program must be written in machine language (ie., with Is and 0s)",
+      "Entering machine language program is a tedious process",
+      "Error detection and correction is tedious and consumes much time",
+      "Programs writen in machine language for a specific machine cannot be used for another type of machine."
+    ],
+    icon: "0️⃣1️⃣"
+  },
+  {
+    name: "Assembler",
+    desc: "Programming in assembly language is easier than programming in machine language. The programmer is required to write a source code for each instruction in the program and the assembler translates in to machine language. The programmer maintains total control of the computer operation.",
+    icon: "⚙️"
+  },
+  {
+    name: "Compiler and Interpreter",
+    desc: "A Compiler is a program that translates programs written in high level language into machine language. The compiler generates several machine language instructions for each source statement. An assembler or a compiler produces the object program, which is loaded into the computer memory before execution.",
+    extra: "The interpreter does not prepare an object program. It translates and immediately executes each instruction of the source program. Thus an interpretive language is also an interactive language: it enables the user to load one instruction into the computer at a time and have it translated and executed.",
+    icon: "🔄"
   }
 ];
 
@@ -302,7 +333,7 @@ export function SoftwareSection() {
         </motion.div>
 
         {/* Lesson 3: Programming Languages */}
-        <div className="mb-16">
+        <div className="mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -393,6 +424,10 @@ export function SoftwareSection() {
                         <div className="rounded-2xl bg-zinc-950 p-6 overflow-x-auto border border-zinc-800 shadow-2xl">
                           <SyntaxHighlighter code={lang.code} lang={lang.lang} />
                         </div>
+                        <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground px-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                          <span>Output: Prints department and university name as requested.</span>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -400,6 +435,90 @@ export function SoftwareSection() {
               ))}
             </Tabs>
           </motion.div>
+        </div>
+
+        {/* Chapter 10 Section */}
+        <div className="border-t border-border pt-24 mt-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <span className="text-secondary font-semibold text-sm uppercase tracking-wider">Chapter 10</span>
+            <h2 className="heading-2 mt-2 mb-4">System Software and Operating System</h2>
+            <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Systems software refers to programs that assist the users to generate, debug, test, modify application programs, and then to execute them. The system programs can be used by different users and different application programs.
+            </p>
+          </motion.div>
+
+          {/* Groups of System Software */}
+          <div className="grid sm:grid-cols-3 gap-6 mb-20">
+            {systemSoftwareGroups.map((group, index) => (
+              <motion.div
+                key={group.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-card rounded-xl p-6 shadow-sm border border-border/50 flex flex-col items-center gap-4 text-center hover:bg-secondary/5 transition-colors"
+              >
+                <div className="p-3 rounded-full bg-secondary/10 text-secondary">
+                  <group.icon className="w-6 h-6" />
+                </div>
+                <h4 className="font-bold">{group.name}</h4>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Language Translators Detailed */}
+          <div className="space-y-12">
+            <h3 className="heading-3 text-center mb-10">Language Translators</h3>
+            
+            {translators.map((translator, index) => (
+              <motion.div
+                key={translator.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-card rounded-3xl p-8 shadow-card border border-border/50"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-4xl">{translator.icon}</span>
+                  <h4 className="heading-4 text-primary">{translator.name}</h4>
+                </div>
+                
+                <p className="text-muted-foreground mb-6 leading-relaxed">
+                  {translator.desc}
+                </p>
+
+                {translator.disadvantages && (
+                  <div className="bg-destructive/5 rounded-2xl p-6 border border-destructive/10">
+                    <h5 className="font-bold text-destructive mb-4 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Disadvantages:
+                    </h5>
+                    <ul className="space-y-3">
+                      {translator.disadvantages.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                          <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1.5 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {translator.extra && (
+                  <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10 mt-6">
+                    <p className="text-sm text-muted-foreground leading-relaxed italic">
+                      {translator.extra}
+                    </p>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
