@@ -6,24 +6,28 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+/* ═══════════════════════════════════════════
+   Definitions Data
+   ═══════════════════════════════════════════ */
+
 const softwareActivities = [
   {
     name: "Application programs",
-    desc: "Performs specific, well-defined tasks for particular applications like accounting, word processing, or gaming.",
+    desc: "An application program performs a specific, well-defined task for a particular application.",
     icon: Terminal,
     color: "text-blue-500",
     bg: "bg-blue-500/10"
   },
   {
     name: "Systems programs",
-    desc: "Software that manages computer hardware and system resources, usually pre-installed by the manufacturer.",
+    desc: "System programs are the programs that help run and manage the computer system, not the ones used for everyday tasks. They are usually provided by the computer manufacturer as part of the system.",
     icon: Settings,
     color: "text-purple-500",
     bg: "bg-purple-500/10"
   },
   {
     name: "Documentation",
-    desc: "Non-executable materials including problem statements, flowcharts, user manuals, and source code explanations.",
+    desc: "Documentation includes everything put down on paper, such as a statement of the problems, flowcharting and coding.",
     icon: BookOpen,
     color: "text-emerald-500",
     bg: "bg-emerald-500/10"
@@ -33,13 +37,13 @@ const softwareActivities = [
 const softwareClassifications = [
   {
     name: "System Software",
-    desc: "Software that helps users interact with the hardware by handling background tasks, translating code, and managing system operations.",
+    desc: "Consists of programs which facilitate the use of the computer by performing standard tasks as in various languages to a form acceptable to hardware.",
     icon: Layers,
     color: "bg-primary",
   },
   {
     name: "Application Software",
-    desc: "Programs developed by users or professionals to perform specific tasks. Common languages used include C, C++, Java, and Python.",
+    desc: "Developed by the users themselves using suitable programming languages like C, C++, Java, and Python to perform specific tasks.",
     icon: FileCode,
     color: "bg-secondary",
   },
@@ -59,16 +63,48 @@ const appTypes = [
 ];
 
 const licenseTypes = [
-  { name: "Commercial Software", desc: "Software developed for sale, often requiring a license fee and offering full support.", icon: "💰" },
-  { name: "Shareware", desc: "Software distributed for free on a trial basis, with full features requiring payment after a period.", icon: "⏱️" },
-  { name: "Freeware", desc: "Software available for use at no cost, though the source code remains copyrighted and restricted.", icon: "🆓" },
+  { 
+    name: "Commercial Software", 
+    desc: "Software developed for sale, often requiring a license fee.", 
+    icon: "💰" 
+  },
+  { 
+    name: "Shareware", 
+    desc: "Try-before-buy software with limited features or time.", 
+    icon: "⏱️" 
+  },
+  { 
+    name: "Freeware", 
+    desc: "Free to use software, though creator retains copyright.", 
+    icon: "🆓" 
+  },
 ];
 
 const programmingGenerations = [
-  { gen: "1GL", name: "First Generation", desc: "Machine languages based on binary (0 and 1) that the computer understands directly.", icon: "🔢" },
-  { gen: "2GL", name: "Second Generation", desc: "Assembly languages using mnemonic codes, making it easier than binary but still hard for humans.", icon: "🛠️" },
-  { gen: "3GL", name: "Third Generation", desc: "High-level procedural languages like C, C++, Java, and Python that use English-like syntax.", icon: "📝" },
-  { gen: "4GL", name: "Fourth Generation", desc: "Non-procedural languages focusing on what to do rather than how, such as SQL for database queries.", icon: "⚡" },
+  { 
+    gen: "1GL", 
+    name: "First Generation", 
+    desc: "Machine languages (based on 0 and 1).", 
+    icon: "🔢" 
+  },
+  { 
+    gen: "2GL", 
+    name: "Second Generation", 
+    desc: "Assembly languages (based on special code but difficult to understand by human).", 
+    icon: "🛠️" 
+  },
+  { 
+    gen: "3GL", 
+    name: "Third Generation", 
+    desc: "High level languages, procedural languages (similar to English language, example- C,C++,Java, Python).", 
+    icon: "📝" 
+  },
+  { 
+    gen: "4GL", 
+    name: "Fourth Generation", 
+    desc: "Nonprocedural languages. (example: SQL).", 
+    icon: "⚡" 
+  },
 ];
 
 const languageDetails = [
@@ -76,7 +112,7 @@ const languageDetails = [
     id: "c-cpp",
     name: "C and C++",
     icon: Cpu,
-    desc: "C offers low-level hardware access with high-level structured programming. C++ adds object-oriented features, providing high performance and flexibility.",
+    desc: "C allows a programmer to write code with low-level access to the hardware but with high-level structured programming concept. C++ incorporates object oriented features and provides flexibility.",
     code: `#include <stdio.h>\n\nint main() {\n    printf("Department of English\\n");\n    printf("Bangladesh Army University of Science and Technology, Saidpur\\n");\n    return 0;\n}`,
     lang: "c"
   },
@@ -84,7 +120,7 @@ const languageDetails = [
     id: "java",
     name: "Java",
     icon: Terminal,
-    desc: "A secure, platform-independent object-oriented language designed for web-based network applications. Java code can run on any operating system.",
+    desc: "An object oriented programming language, similar to C++ but simpler, secure and platform independent. Designed for real-time, interactive, Web-based applications.",
     code: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Department of English");\n        System.out.println("Bangladesh Army University of Science and Technology, Saidpur");\n    }\n}`,
     lang: "java"
   },
@@ -92,11 +128,54 @@ const languageDetails = [
     id: "html",
     name: "HTML",
     icon: Globe,
-    desc: "HTML stands for HyperText Markup Language. It is used to create and structure web pages by using simple tags to define headings, links, and other content.",
+    desc: "HyperText Markup Language creates hypertext documents. It embeds control codes in text that designate titles, headings, graphics, and hyperlinks.",
     code: `<!DOCTYPE html>\n<html>\n<body>\n    <h1>Department of English</h1>\n    <p>Bangladesh Army University of Science and Technology, Saidpur</p>\n</body>\n</html>`,
     lang: "html"
   }
 ];
+
+/* ═══════════════════════════════════════════
+   Simplified Syntax Highlighter
+   ═══════════════════════════════════════════ */
+
+function SyntaxHighlighter({ code, lang }: { code: string; lang: string }) {
+  const highlightCode = (line: string, language: string) => {
+    if (language === "c" || language === "java") {
+      return line
+        .replace(/(\/\/.*)/g, '<span class="text-zinc-500 italic">$1</span>') // Comments
+        .replace(/(".*?")/g, '<span class="text-emerald-400">$1</span>') // Strings
+        .replace(/\b(int|return|public|class|static|void|String|if|else|for|while|include)\b/g, '<span class="text-purple-400 font-semibold">$1</span>') // Keywords
+        .replace(/\b(printf|System|out|println|main)\b/g, '<span class="text-blue-400">$1</span>'); // Functions/Classes
+    }
+    
+    if (language === "html") {
+      return line
+        .replace(/(<!--.*?-->)/g, '<span class="text-zinc-500 italic">$1</span>') // Comments
+        .replace(/(&lt;!DOCTYPE.*?&gt;)/gi, '<span class="text-orange-400 font-bold">$1</span>') // Doctype
+        .replace(/(&lt;\/?[a-z0-9]+\b)/gi, '<span class="text-pink-500 font-semibold">$1</span>') // Tag Start
+        .replace(/(&gt;)/g, '<span class="text-pink-500 font-semibold">$1</span>') // Tag End
+        .replace(/(\b[a-z-]+(?==))/gi, '<span class="text-yellow-400 italic">$1</span>') // Attributes
+        .replace(/(".*?")/g, '<span class="text-emerald-400 font-medium">$1</span>'); // Attribute Values
+    }
+    
+    return line;
+  };
+
+  const escapedCode = code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  const highlightedLines = escapedCode.split("\n").map(line => highlightCode(line, lang));
+
+  return (
+    <pre className="text-sm sm:text-base font-mono leading-relaxed whitespace-pre overflow-x-auto">
+      {highlightedLines.map((line, i) => (
+        <div key={i} dangerouslySetInnerHTML={{ __html: line || " " }} />
+      ))}
+    </pre>
+  );
+}
 
 export function SoftwareSection() {
   const ref = useRef(null);
@@ -192,7 +271,7 @@ export function SoftwareSection() {
                   <p className="text-sm text-muted-foreground mb-4">{type.desc}</p>
                   <div className="flex flex-wrap gap-2">
                     {type.examples.map((ex) => (
-                      <Badge key={ex} variant="secondary" className="bg-muted text-xs font-normal">
+                      <Badge key={ex} variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-none text-xs font-normal">
                         {ex}
                       </Badge>
                     ))}
@@ -311,14 +390,8 @@ export function SoftwareSection() {
                             )}
                           </Button>
                         </div>
-                        <pre className="rounded-2xl bg-zinc-950 p-6 overflow-x-auto border border-zinc-800 shadow-2xl">
-                          <code className="text-sm sm:text-base font-mono text-zinc-300 leading-relaxed">
-                            {lang.code}
-                          </code>
-                        </pre>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground px-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
-                          <span>Output: Prints department and university name as requested.</span>
+                        <div className="rounded-2xl bg-zinc-950 p-6 overflow-x-auto border border-zinc-800 shadow-2xl">
+                          <SyntaxHighlighter code={lang.code} lang={lang.lang} />
                         </div>
                       </div>
                     </CardContent>
