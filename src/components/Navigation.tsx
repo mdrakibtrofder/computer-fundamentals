@@ -4,17 +4,19 @@ import { Menu, X, Cpu, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { label: "Introduction", href: "#introduction" },
-  { label: "Number Systems", href: "#number-systems" },
-  { label: "Binary Arithmetic", href: "#binary-arithmetic" },
-  { label: "Codes & Organization", href: "#codes" },
-  { label: "Hardware", href: "#hardware" },
-  { label: "I/O Devices", href: "#io-devices" },
-  { label: "Microprocessor", href: "#microprocessor" },
-  { label: "Memory Organization", href: "#memory-organization" },
-  { label: "Software", href: "#software" },
-  { label: "Networks", href: "#networks" },
-  { label: "Visualization", href: "#visualization" },
+  { label: "Chapter 1: Introduction to Computers", href: "#introduction" },
+  { label: "Chapter 2: Number Systems and Codes", href: "#number-systems" },
+  { label: "Chapter 3: Digital Circuits", href: "#binary-arithmetic" },
+  { label: "Chapter 4: Microcomputer System", href: "#hardware" },
+  { label: "Chapter 5: Input and Output Devices", href: "#io-devices" },
+  { label: "Chapter 6: Microprocessors", href: "#microprocessor" },
+  { label: "Chapter 7: Memory Organization", href: "#memory-organization" },
+  { label: "Chapter 8: Computer Software", href: "#software" },
+  { label: "Chapter 9: System Software and OS", href: "#software" },
+  { label: "Chapter 12: Computer Networks and Internet", href: "#networks" },
+  { label: "Chapter 13: Information Technology", href: "#it" },
+  { label: "Chapter 14: Computers and Society", href: "#society" },
+  { label: "Interactive Visualization", href: "#visualization" },
 ];
 
 export function Navigation() {
