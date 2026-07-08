@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Cpu, BookOpen } from "lucide-react";
+import { Menu, X, Cpu, BookOpen, ChevronDown, ChevronRight, CheckCircle2, Circle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { chapters, Chapter, Lesson } from "@/lib/courseData";
 
-const navItems = [
-  { label: "Chapter 1: Introduction to Computers", href: "#introduction" },
-  { label: "Chapter 2: Number Systems and Codes", href: "#number-systems" },
-  { label: "Chapter 3: Digital Circuits", href: "#binary-arithmetic" },
-  { label: "Chapter 4: Microcomputer System", href: "#hardware" },
-  { label: "Chapter 5: Input and Output Devices", href: "#io-devices" },
-  { label: "Chapter 6: Microprocessors", href: "#microprocessor" },
-  { label: "Chapter 7: Memory Organization", href: "#memory-organization" },
-  { label: "Chapter 8: Computer Software", href: "#software" },
-  { label: "Chapter 9: System Software and OS", href: "#software" },
-  { label: "Chapter 12: Computer Networks and Internet", href: "#networks" },
-  { label: "Chapter 13: Information Technology", href: "#it" },
-  { label: "Chapter 14: Computers and Society", href: "#society" },
-  { label: "Interactive Visualization", href: "#visualization" },
-];
+interface NavigationProps {
+  currentLessonId: string;
+  onSelectLesson: (id: string) => void;
+  completedLessons: Record<string, boolean>;
+}
 
-export function Navigation() {
+export function Navigation({
+  currentLessonId,
+  onSelectLesson,
+  completedLessons,
+}: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Keep track of expanded chapters in the sidebar
+  const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -29,8 +27,146 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Find the active chapter and auto-expand it on load
+  useEffect(() => {
+    const activeChapter = chapters.find((ch) =>
+      ch.lessons.some((l) => l.id === currentLessonId)
+    );
+    if (activeChapter) {
+      setExpandedChapters((prev) => ({
+        ...prev,
+        [activeChapter.id]: true,
+      }));
+    }
+  }, [currentLessonId]);
+
+  const toggleChapter = (chapterId: string) => {
+    setExpandedChapters((prev) => ({
+      ...prev,
+      [chapterId]: !prev[chapterId],
+    }));
+  };
+
+  // Calculate overall course progress
+  const totalLessons = chapters.reduce((acc, ch) => acc + ch.lessons.length, 0);
+  const completedCount = Object.values(completedLessons).filter(Boolean).length;
+  const progressPercent = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+
+  const renderNavContent = () => (
+    <div className="flex h-full flex-col px-4 py-6">
+      {/* Brand logo */}
+      <a href="#" className="flex items-center gap-3 group px-2">
+        <div className="rounded-xl bg-primary p-2.5 text-primary-foreground shadow-glow transition-shadow group-hover:shadow-card">
+          <Cpu className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-base font-bold tracking-tight">CSE 2109</p>
+          <p className="text-xs text-muted-foreground">Computer Fundamentals</p>
+        </div>
+      </a>
+
+      {/* Progress Bar */}
+      <div className="mt-6 rounded-xl border border-border/60 bg-muted/40 p-4">
+        <div className="flex items-center justify-between text-xs font-semibold text-foreground mb-2">
+          <span className="flex items-center gap-1.5">
+            <BookOpen className="h-3.5 w-3.5 text-primary" />
+            Course Progress
+          </span>
+          <span className="text-primary">{progressPercent}%</span>
+        </div>
+        <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-primary h-full transition-all duration-500 rounded-full"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-2 leading-relaxed">
+          {completedCount} of {totalLessons} lessons completed.
+        </p>
+      </div>
+
+      {/* Chapter & Lesson Accordion List */}
+      <nav className="mt-6 flex-1 space-y-1 overflow-y-auto pr-1">
+        {chapters.map((ch) => {
+          const isExpanded = expandedChapters[ch.id];
+          const hasActiveLesson = ch.lessons.some((l) => l.id === currentLessonId);
+
+          return (
+            <div key={ch.id} className="space-y-1">
+              {/* Chapter Title Trigger */}
+              <button
+                onClick={() => toggleChapter(ch.id)}
+                className={`w-full flex items-center justify-between rounded-lg px-3 py-2.5 text-left text-xs font-bold transition-all ${
+                  hasActiveLesson
+                    ? "bg-primary/5 text-primary"
+                    : "text-foreground hover:bg-muted"
+                }`}
+              >
+                <div className="flex items-center gap-2 pr-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[10px] font-bold text-primary">
+                    {ch.number}
+                  </span>
+                  <span className="truncate">{ch.title}</span>
+                </div>
+                {isExpanded ? (
+                  <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                ) : (
+                  <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                )}
+              </button>
+
+              {/* Lessons Sub-menu */}
+              <AnimatePresence initial={false}>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="overflow-hidden pl-3 border-l border-border/60 ml-5 space-y-0.5"
+                  >
+                    {ch.lessons.map((lesson) => {
+                      const isActive = lesson.id === currentLessonId;
+                      const isCompleted = completedLessons[lesson.id];
+
+                      return (
+                        <button
+                          key={lesson.id}
+                          onClick={() => {
+                            onSelectLesson(lesson.id);
+                            setIsOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between rounded-md px-2.5 py-1.5 text-left text-xs transition-colors ${
+                            isActive
+                              ? "bg-primary/10 text-primary font-semibold"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          }`}
+                        >
+                          <span className="truncate flex items-center gap-1.5">
+                            <span className="text-[10px] opacity-70">L{lesson.number}:</span>
+                            {lesson.title}
+                          </span>
+                          {isCompleted ? (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-green-500 shrink-0" />
+                          ) : (
+                            <Circle className="h-3 w-3 text-muted-foreground/35 shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </nav>
+    </div>
+  );
+
   return (
     <>
+      {/* Mobile Top Header */}
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -38,12 +174,12 @@ export function Navigation() {
           scrolled ? "glass-card shadow-card border-border" : "bg-background/80 backdrop-blur-xl border-transparent"
         }`}
       >
-        <div className="container-custom flex items-center justify-between px-4 py-4">
+        <div className="container-custom flex items-center justify-between px-4 py-3">
           <a href="#" className="flex items-center gap-2 group">
-            <div className="p-2 rounded-lg bg-primary text-primary-foreground group-hover:shadow-glow transition-shadow">
-              <Cpu className="w-5 h-5" />
+            <div className="p-1.5 rounded-lg bg-primary text-primary-foreground">
+              <Cpu className="w-4 h-4" />
             </div>
-            <span className="font-bold text-lg">CSE 2109</span>
+            <span className="font-bold text-sm">CSE 2109</span>
           </a>
 
           <Button
@@ -51,55 +187,23 @@ export function Navigation() {
             size="icon"
             onClick={() => setIsOpen((open) => !open)}
             aria-label="Toggle navigation menu"
+            className="h-9 w-9"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
         </div>
       </motion.header>
 
+      {/* Desktop Sidebar */}
       <motion.aside
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-border/70 bg-background/90 backdrop-blur-xl lg:flex lg:flex-col"
       >
-        <div className="flex h-full flex-col px-6 py-8">
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="rounded-xl bg-primary p-3 text-primary-foreground shadow-glow transition-shadow group-hover:shadow-card">
-              <Cpu className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-lg font-bold">CSE 2109</p>
-              <p className="text-sm text-muted-foreground">Computer Fundamentals</p>
-            </div>
-          </a>
-
-          <div className="mt-8 rounded-2xl border border-border/60 bg-muted/40 p-4">
-            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <BookOpen className="h-4 w-4 text-primary" />
-              Course Outline
-            </div>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Jump between topics and move through the course from fundamentals to hands-on visualization.
-            </p>
-          </div>
-
-          <nav className="mt-8 flex-1 space-y-2 overflow-y-auto pr-1">
-            {navItems.map((item, index) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-primary/10 hover:text-foreground"
-              >
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  {index + 1}
-                </span>
-                <span>{item.label}</span>
-              </a>
-            ))}
-          </nav>
-        </div>
+        {renderNavContent()}
       </motion.aside>
 
+      {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -117,45 +221,21 @@ export function Navigation() {
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.25 }}
-              className="fixed inset-y-0 left-0 z-50 flex w-[85vw] max-w-xs flex-col border-r border-border bg-background p-6 shadow-2xl lg:hidden"
+              transition={{ type: "tween", duration: 0.2 }}
+              className="fixed inset-y-0 left-0 z-50 flex w-[85vw] max-w-xs flex-col border-r border-border bg-background shadow-2xl lg:hidden"
             >
-              <div className="flex items-center justify-between">
-                <a href="#" className="flex items-center gap-2">
-                  <div className="rounded-lg bg-primary p-2 text-primary-foreground">
-                    <Cpu className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-bold">CSE 2109</p>
-                    <p className="text-xs text-muted-foreground">Computer Fundamentals</p>
-                  </div>
-                </a>
-
+              <div className="absolute top-3 right-3">
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsOpen(false)}
                   aria-label="Close navigation menu"
+                  className="h-8 w-8"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4.5 w-4.5" />
                 </Button>
               </div>
-
-              <nav className="mt-8 space-y-2">
-                {navItems.map((item, index) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-primary/10 hover:text-foreground"
-                  >
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-primary">
-                      {index + 1}
-                    </span>
-                    <span>{item.label}</span>
-                  </a>
-                ))}
-              </nav>
+              {renderNavContent()}
             </motion.aside>
           </>
         )}

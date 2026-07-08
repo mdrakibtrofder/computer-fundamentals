@@ -671,7 +671,7 @@ function performArithmetic(a: string, b: string, base: NumberBase, operation: st
    Main Section
    ═══════════════════════════════════════════ */
 
-export function NumberSystemsSection() {
+export function Chapter2NumberSystems({ lessonId }: { lessonId: string }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const conversionPairs = makePairs();
@@ -696,249 +696,248 @@ export function NumberSystemsSection() {
 
   return (
     <TooltipProvider delayDuration={100}>
-      <section id="number-systems" className="section-padding" ref={ref}>
-        <div className="container-custom">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Section B</span>
-            <h2 className="heading-2 mt-2 mb-4">Number Systems</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Understanding different radix number systems, their symbols, and step-by-step conversions
-            </p>
-          </motion.div>
-
-          {/* ───── 2.1 Rich Number System Detail Cards ───── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="grid md:grid-cols-2 gap-6 mb-16"
-          >
-            {(Object.entries(numberSystems) as [NumberBase, NumberSystemInfo][]).map(
-              ([key, sys], index) => (
-                <motion.div
-                  key={key}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                  className={`bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all overflow-hidden`}
-                >
-                  {/* Gradient header */}
-                  <div className={`bg-gradient-to-r ${sys.gradient} p-6`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className={`font-bold text-lg ${sys.color}`}>{sys.name}</h3>
-                      <span className="px-3 py-1 rounded-full bg-card text-sm font-mono font-bold">
-                        Base {sys.base}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{sys.meaning}</p>
-                  </div>
-
-                  <div className="p-6 space-y-5">
-                    {/* Symbols */}
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                        Symbols (hover for value)
-                      </p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {sys.symbols.map((s) => (
-                          <SymbolBadge key={s.symbol} info={s} />
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Examples */}
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                        Examples
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {sys.examples.map((ex) => (
-                          <span
-                            key={ex}
-                            className="px-3 py-1 rounded-lg bg-muted font-mono text-sm"
-                          >
-                            {ex}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Why used */}
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                        Why It's Used
-                      </p>
-                      <p className="text-sm text-muted-foreground">{sys.whyUsed}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            )}
-          </motion.div>
-
-          {/* ───── 2.2 Step-by-Step Conversion Visualizers ───── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-16"
-          >
-            <h3 className="heading-3 mb-2 text-center">Step-by-Step Conversion Visualizer</h3>
-            <p className="text-center text-muted-foreground mb-8 max-w-xl mx-auto">
-              Expand any conversion below, enter a number, and see every step of the algorithm
-            </p>
-
-            <div className="space-y-3 max-w-3xl mx-auto">
-              {conversionPairs.map((pair) => (
-                <ConversionVisualizer key={pair.label} pair={pair} />
-              ))}
+      <div className="space-y-12" ref={ref}>
+        {lessonId === "c2-l1" ? (
+          <>
+            <div>
+              <h2 className="text-3xl font-extrabold text-foreground mb-4">Lesson 1: Number Systems</h2>
+              <p className="text-muted-foreground">
+                Understanding different radix number systems, their symbols, bases, and why they are used in modern computer systems.
+              </p>
             </div>
-          </motion.div>
 
-          {/* ───── 2.3 Quick Converter & Calculator ───── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <Tabs defaultValue="converter" className="w-full">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-                <TabsTrigger value="converter" className="gap-2">
-                  <ArrowRightLeft className="w-4 h-4" /> Quick Converter
-                </TabsTrigger>
-                <TabsTrigger value="calculator" className="gap-2">
-                  <Calculator className="w-4 h-4" /> Calculator
-                </TabsTrigger>
-              </TabsList>
+            {/* Rich Number System Detail Cards */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {(Object.entries(numberSystems) as [NumberBase, NumberSystemInfo][]).map(
+                ([key, sys], index) => (
+                  <motion.div
+                    key={key}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all overflow-hidden"
+                  >
+                    {/* Gradient header */}
+                    <div className={`bg-gradient-to-r ${sys.gradient} p-6`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className={`font-bold text-lg ${sys.color}`}>{sys.name}</h3>
+                        <span className="px-3 py-1 rounded-full bg-card text-sm font-mono font-bold">
+                          Base {sys.base}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{sys.meaning}</p>
+                    </div>
 
-              {/* Converter Tab */}
-              <TabsContent value="converter">
-                <div className="bg-card rounded-2xl p-8 shadow-card max-w-3xl mx-auto">
-                  <h3 className="heading-3 mb-6 text-center">Number System Converter</h3>
-                  <div className="grid md:grid-cols-3 gap-4 items-end mb-8">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Input Value</label>
-                      <Input
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        placeholder="Enter number..."
-                        className="font-mono text-lg"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">From Base</label>
-                      <Select value={fromBase} onValueChange={(v) => setFromBase(v as NumberBase)}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="binary">Binary (2)</SelectItem>
-                          <SelectItem value="octal">Octal (8)</SelectItem>
-                          <SelectItem value="decimal">Decimal (10)</SelectItem>
-                          <SelectItem value="hexadecimal">Hexadecimal (16)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">To Base</label>
-                      <Select value={toBase} onValueChange={(v) => setToBase(v as NumberBase)}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="binary">Binary (2)</SelectItem>
-                          <SelectItem value="octal">Octal (8)</SelectItem>
-                          <SelectItem value="decimal">Decimal (10)</SelectItem>
-                          <SelectItem value="hexadecimal">Hexadecimal (16)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  {inputValue && (
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {allConversions.map((conv) => (
-                        <div
-                          key={conv.base}
-                          className={`p-4 rounded-xl transition-all ${conv.base === toBase
-                            ? "bg-primary text-primary-foreground shadow-glow"
-                            : "bg-muted"
-                            }`}
-                        >
-                          <p className="text-xs font-medium opacity-80 mb-1">
-                            {numberSystems[conv.base].name.split(" ")[0]}
-                          </p>
-                          <p className="font-mono text-lg font-bold truncate">{conv.value}</p>
+                    <div className="p-6 space-y-5">
+                      {/* Symbols */}
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                          Symbols (hover for value)
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {sys.symbols.map((s) => (
+                            <SymbolBadge key={s.symbol} info={s} />
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
+                      </div>
 
-              {/* Calculator Tab */}
-              <TabsContent value="calculator">
-                <div className="bg-card rounded-2xl p-8 shadow-card max-w-3xl mx-auto">
-                  <h3 className="heading-3 mb-6 text-center">Arithmetic Operations Calculator</h3>
-                  <div className="grid md:grid-cols-2 gap-4 mb-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Number System</label>
-                      <Select value={arithmeticBase} onValueChange={(v) => setArithmeticBase(v as NumberBase)}>
-                        <SelectTrigger><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="binary">Binary</SelectItem>
-                          <SelectItem value="octal">Octal</SelectItem>
-                          <SelectItem value="decimal">Decimal</SelectItem>
-                          <SelectItem value="hexadecimal">Hexadecimal</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Operation</label>
-                      <div className="flex gap-2">
-                        {[
-                          { key: "add", icon: Plus, label: "Add" },
-                          { key: "subtract", icon: Minus, label: "Subtract" },
-                          { key: "multiply", icon: X, label: "Multiply" },
-                          { key: "divide", icon: Divide, label: "Divide" },
-                        ].map((op) => (
-                          <Button
-                            key={op.key}
-                            variant={operation === op.key ? "default" : "outline"}
-                            size="icon"
-                            onClick={() => setOperation(op.key)}
-                            title={op.label}
-                          >
-                            <op.icon className="w-4 h-4" />
-                          </Button>
-                        ))}
+                      {/* Examples */}
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                          Examples
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {sys.examples.map((ex) => (
+                            <span
+                              key={ex}
+                              className="px-3 py-1 rounded-lg bg-muted font-mono text-sm"
+                            >
+                              {ex}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Why used */}
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                          Why It's Used
+                        </p>
+                        <p className="text-sm text-muted-foreground">{sys.whyUsed}</p>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
-                    <Input value={operandA} onChange={(e) => setOperandA(e.target.value)} placeholder="First number" className="font-mono text-lg text-center" />
-                    <span className="text-2xl font-bold text-muted-foreground">
-                      {operation === "add" && "+"}
-                      {operation === "subtract" && "−"}
-                      {operation === "multiply" && "×"}
-                      {operation === "divide" && "÷"}
-                    </span>
-                    <Input value={operandB} onChange={(e) => setOperandB(e.target.value)} placeholder="Second number" className="font-mono text-lg text-center" />
-                    <span className="text-2xl font-bold text-muted-foreground">=</span>
-                    <div className="min-w-[120px] p-3 rounded-xl bg-primary text-primary-foreground font-mono text-lg font-bold text-center">
-                      {arithmeticResult || "?"}
+                  </motion.div>
+                )
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <h2 className="text-3xl font-extrabold text-foreground mb-4">Lesson 2: Conversion of Numbers</h2>
+              <p className="text-muted-foreground">
+                Step-by-step conversion processes and interactive conversion playground between different number bases.
+              </p>
+            </div>
+
+            {/* Step-by-Step Conversion Visualizers */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-card rounded-2xl p-8 border border-border"
+            >
+              <h3 className="text-xl font-bold mb-2 text-center">Step-by-Step Conversion Visualizer</h3>
+              <p className="text-center text-muted-foreground mb-8 max-w-xl mx-auto text-sm">
+                Expand any conversion pair below, enter a number, and see every step of the algorithm.
+              </p>
+
+              <div className="space-y-3 max-w-3xl mx-auto">
+                {conversionPairs.map((pair) => (
+                  <ConversionVisualizer key={pair.label} pair={pair} />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Quick Converter & Calculator */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Tabs defaultValue="converter" className="w-full">
+                <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+                  <TabsTrigger value="converter" className="gap-2">
+                    <ArrowRightLeft className="w-4 h-4" /> Quick Converter
+                  </TabsTrigger>
+                  <TabsTrigger value="calculator" className="gap-2">
+                    <Calculator className="w-4 h-4" /> Calculator
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Converter Tab */}
+                <TabsContent value="converter">
+                  <div className="bg-card rounded-2xl p-8 shadow-card max-w-3xl mx-auto">
+                    <h3 className="text-xl font-bold mb-6 text-center">Number System Converter</h3>
+                    <div className="grid md:grid-cols-3 gap-4 items-end mb-8">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Input Value</label>
+                        <Input
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder="Enter number..."
+                          className="font-mono text-lg"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">From Base</label>
+                        <Select value={fromBase} onValueChange={(v) => setFromBase(v as NumberBase)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="binary">Binary (2)</SelectItem>
+                            <SelectItem value="octal">Octal (8)</SelectItem>
+                            <SelectItem value="decimal">Decimal (10)</SelectItem>
+                            <SelectItem value="hexadecimal">Hexadecimal (16)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">To Base</label>
+                        <Select value={toBase} onValueChange={(v) => setToBase(v as NumberBase)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="binary">Binary (2)</SelectItem>
+                            <SelectItem value="octal">Octal (8)</SelectItem>
+                            <SelectItem value="decimal">Decimal (10)</SelectItem>
+                            <SelectItem value="hexadecimal">Hexadecimal (16)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
+                    {inputValue && (
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {allConversions.map((conv) => (
+                          <div
+                            key={conv.base}
+                            className={`p-4 rounded-xl transition-all ${conv.base === toBase
+                              ? "bg-primary text-primary-foreground shadow-glow"
+                              : "bg-muted"
+                              }`}
+                          >
+                            <p className="text-xs font-medium opacity-80 mb-1">
+                              {numberSystems[conv.base].name.split(" ")[0]}
+                            </p>
+                            <p className="font-mono text-lg font-bold truncate">{conv.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <p className="text-center text-sm text-muted-foreground">
-                    All inputs and output are in <strong>{numberSystems[arithmeticBase].name.split(" ")[0]}</strong> format
-                  </p>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </motion.div>
-        </div>
-      </section>
+                </TabsContent>
+
+                {/* Calculator Tab */}
+                <TabsContent value="calculator">
+                  <div className="bg-card rounded-2xl p-8 shadow-card max-w-3xl mx-auto">
+                    <h3 className="text-xl font-bold mb-6 text-center">Arithmetic Operations Calculator</h3>
+                    <div className="grid md:grid-cols-2 gap-4 mb-6">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Number System</label>
+                        <Select value={arithmeticBase} onValueChange={(v) => setArithmeticBase(v as NumberBase)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="binary">Binary</SelectItem>
+                            <SelectItem value="octal">Octal</SelectItem>
+                            <SelectItem value="decimal">Decimal</SelectItem>
+                            <SelectItem value="hexadecimal">Hexadecimal</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Operation</label>
+                        <div className="flex gap-2">
+                          {[
+                            { key: "add", icon: Plus, label: "Add" },
+                            { key: "subtract", icon: Minus, label: "Subtract" },
+                            { key: "multiply", icon: X, label: "Multiply" },
+                            { key: "divide", icon: Divide, label: "Divide" },
+                          ].map((op) => (
+                            <Button
+                              key={op.key}
+                              variant={operation === op.key ? "default" : "outline"}
+                              size="icon"
+                              onClick={() => setOperation(op.key)}
+                              title={op.label}
+                            >
+                              <op.icon className="w-4 h-4" />
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-4 items-center mb-6">
+                      <Input value={operandA} onChange={(e) => setOperandA(e.target.value)} placeholder="First number" className="font-mono text-lg text-center" />
+                      <span className="text-2xl font-bold text-muted-foreground">
+                        {operation === "add" && "+"}
+                        {operation === "subtract" && "−"}
+                        {operation === "multiply" && "×"}
+                        {operation === "divide" && "÷"}
+                      </span>
+                      <Input value={operandB} onChange={(e) => setOperandB(e.target.value)} placeholder="Second number" className="font-mono text-lg text-center" />
+                      <span className="text-2xl font-bold text-muted-foreground">=</span>
+                      <div className="min-w-[120px] p-3 rounded-xl bg-primary text-primary-foreground font-mono text-lg font-bold text-center">
+                        {arithmeticResult || "?"}
+                      </div>
+                    </div>
+                    <p className="text-center text-sm text-muted-foreground">
+                      All inputs and output are in <strong>{numberSystems[arithmeticBase].name.split(" ")[0]}</strong> format
+                    </p>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </motion.div>
+          </>
+        )}
+      </div>
     </TooltipProvider>
   );
 }
