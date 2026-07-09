@@ -13,11 +13,10 @@ import { Chapter9SystemSoftware } from "@/components/chapters/Chapter9SystemSoft
 import { Chapter12Networks } from "@/components/chapters/Chapter12Networks";
 import { Chapter13IT } from "@/components/chapters/Chapter13IT";
 import { Chapter14Society } from "@/components/chapters/Chapter14Society";
-import { TrackingDemo } from "@/components/TrackingDemo";
 import { Footer } from "@/components/Footer";
 import { flatLessons, FlatLesson } from "@/lib/courseData";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, ChevronLeft, ChevronRight, PlayCircle } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { pushToDataLayer } from "@/lib/gtm-datalayer";
 
 const Index = () => {
@@ -177,22 +176,6 @@ const Index = () => {
               </Button>
             </div>
           </div>
-        </div>
-
-        {/* Collapsible GTM Developer Playground */}
-        <div className="mt-12 max-w-5xl mx-auto py-8">
-          <details className="group bg-slate-950/20 backdrop-blur-xl rounded-2xl border border-white/5 overflow-hidden">
-            <summary className="flex items-center justify-between p-4 cursor-pointer select-none font-bold text-sm text-slate-300 hover:text-white transition-colors">
-              <span className="flex items-center gap-2">
-                <PlayCircle className="w-4 h-4 text-blue-400" />
-                Performance Data Layer Console
-              </span>
-              <span className="text-xs text-muted-foreground group-open:rotate-180 transition-transform">▼</span>
-            </summary>
-            <div className="p-4 border-t border-white/5 bg-slate-950/10">
-              <TrackingDemo />
-            </div>
-          </details>
         </div>
       </main>
 
