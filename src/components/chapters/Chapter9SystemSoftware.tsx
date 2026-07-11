@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Settings, ArrowRightLeft, Zap, AlertTriangle, Scale, Shield, Database, Cpu, HardDrive } from "lucide-react";
+import { Settings, ArrowRightLeft, Zap, AlertTriangle, Scale, Shield, Database, Cpu, HardDrive, Timer, Handshake, Monitor, Smartphone, KeyRound, Lock, Users, Share2, Layers, Save, RefreshCw, Server, Cloud } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const systemSoftwareGroups = [
@@ -79,6 +79,99 @@ const osTypes = [
     name: "Distributed OS",
     desc: "Manages a cluster of physical machines, representing them as a single cohesive unit to the user."
   }
+];
+
+const multitaskingModes = [
+  {
+    name: "Preemptive Multitasking",
+    icon: Timer,
+    desc: "The operating system stays in control: a hardware timer interrupts the running process when its time slice expires, and the scheduler forcibly switches the CPU to the next process. A misbehaving program cannot freeze the system, because it can always be preempted.",
+    usedBy: "Used by all modern systems: Windows, macOS, Linux, Android, iOS.",
+  },
+  {
+    name: "Cooperative Multitasking",
+    icon: Handshake,
+    desc: "Each program must voluntarily yield the CPU so others can run. The OS cannot interrupt a task — if one program enters an infinite loop or refuses to yield, the whole system hangs.",
+    usedBy: "Used by early systems: Windows 3.x, classic Mac OS (pre-OS X).",
+  },
+];
+
+const multitaskingExamples = [
+  {
+    name: "Desktop",
+    icon: Monitor,
+    desc: "You stream music, download a file, and type a document at once. The OS gives each program brief turns on the CPU cores; switches happen thousands of times a second, so everything appears simultaneous.",
+  },
+  {
+    name: "Mobile",
+    icon: Smartphone,
+    desc: "A navigation app gives directions while a call is active and messages arrive in the background. Android and iOS additionally suspend or restrict background apps to save battery — multitasking constrained by power budgets.",
+  },
+];
+
+const resourceAllocationMechanisms = [
+  { title: "Memory Protection", desc: "Each process gets its own virtual address space; hardware blocks reads or writes to another process's memory." },
+  { title: "Mutual Exclusion (Locks & Semaphores)", desc: "Only one process at a time may enter a critical section that touches a shared resource, preventing corrupted data." },
+  { title: "Priority Scheduling", desc: "The scheduler weighs process priorities so interactive tasks stay responsive while background jobs still make progress." },
+  { title: "Deadlock Handling", desc: "The OS orders or limits resource requests (and can detect cycles) so processes don't wait on each other forever." },
+  { title: "I/O Queuing & Spooling", desc: "Requests for devices like disks and printers are queued and served in order, so concurrent processes never garble a shared device." },
+];
+
+const multiUserFeatures = [
+  {
+    title: "User Authentication",
+    icon: KeyRound,
+    desc: "Before any resource is granted, the OS verifies identity — passwords, smart cards, SSH keys, or biometrics — and associates every subsequent process with that verified user account.",
+  },
+  {
+    title: "Permission-Based Access",
+    icon: Lock,
+    desc: "Every file, device, and service carries an access-control list or owner/group/other permissions (e.g., Unix read/write/execute bits). The OS checks these on every access, so users only touch what they are entitled to.",
+  },
+  {
+    title: "User Isolation",
+    icon: Shield,
+    desc: "Each user's processes, memory, and files are walled off from other users. One user cannot read another's private data, kill their processes, or exhaust the machine — quotas and per-user limits keep resources fairly shared.",
+  },
+];
+
+const multiUserExamples = [
+  { name: "Mainframe Systems", icon: Database, desc: "IBM z/OS and UNIX time-sharing systems have served hundreds of terminal users on one machine since the 1960s-70s." },
+  { name: "Server Operating Systems", icon: Server, desc: "A single Linux or Windows Server host supports many simultaneous SSH/remote-desktop sessions, each with its own account, home directory, and permissions." },
+  { name: "Cloud Platforms", icon: Cloud, desc: "AWS, Azure, and Google Cloud extend the model to millions of tenants, using virtualization and strict isolation so customers safely share the same physical hardware." },
+];
+
+const osCharacteristics = [
+  {
+    title: "Concurrency",
+    icon: Cpu,
+    desc: "Many activities progress at once — user processes, kernel services, I/O transfers. The OS interleaves and synchronizes them so a slow disk read never idles the whole machine.",
+  },
+  {
+    title: "Resource Sharing",
+    icon: Share2,
+    desc: "CPU time, memory, storage, and devices are shared among competing programs and users. Fair allocation policies maximize utilization while preventing any one task from starving the rest.",
+  },
+  {
+    title: "Virtualization",
+    icon: Layers,
+    desc: "The OS presents idealized abstractions of hardware: virtual memory larger than physical RAM, virtual CPUs via time slicing, files instead of raw disk blocks — even entire virtual machines.",
+  },
+  {
+    title: "Persistence",
+    icon: Save,
+    desc: "Data must outlive processes and power cycles. File systems guarantee that saved information survives crashes and reboots, using journaling and consistency checks to avoid corruption.",
+  },
+  {
+    title: "Security",
+    icon: Shield,
+    desc: "Authentication, access control, privilege separation (user mode vs. kernel mode), and encryption protect data and the system itself from unauthorized use and malicious software.",
+  },
+  {
+    title: "Fault Tolerance",
+    icon: RefreshCw,
+    desc: "The system contains failures instead of collapsing: a crashing application is terminated cleanly, bad memory pages are retired, and servers use redundancy (RAID, failover) to keep running.",
+  },
 ];
 
 export function Chapter9SystemSoftware({ lessonId }: { lessonId: string }) {
@@ -242,6 +335,129 @@ export function Chapter9SystemSoftware({ lessonId }: { lessonId: string }) {
               <div key={type.name} className="bg-card rounded-xl p-6 border shadow-card border-l-4 border-secondary">
                 <h4 className="font-bold text-base mb-2 text-foreground">{type.name}</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">{type.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Multitasking */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-bold text-center">Multitasking</h3>
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto text-center leading-relaxed">
+            Multitasking is the ability of an operating system to run multiple processes seemingly at the
+            same time on a limited number of CPUs. The OS divides processor time into tiny <strong>time
+            slices</strong> (typically a few milliseconds) and switches the CPU between ready processes so
+            rapidly that all of them appear to execute concurrently.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {multitaskingModes.map((mode) => (
+              <div key={mode.name} className="bg-card rounded-2xl p-6 border border-border/50 shadow-card space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                    <mode.icon className="w-5 h-5" />
+                  </div>
+                  <h4 className="font-bold text-base">{mode.name}</h4>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{mode.desc}</p>
+                <p className="text-[11px] font-semibold text-primary">{mode.usedBy}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-card rounded-2xl p-8 border border-border/50 shadow-sm space-y-4">
+            <h4 className="font-bold text-base">How CPU Time Slicing Works</h4>
+            <ol className="space-y-2 text-sm text-muted-foreground leading-relaxed list-decimal list-inside">
+              <li>The scheduler picks a ready process and gives it the CPU for one time slice (quantum).</li>
+              <li>A hardware timer interrupt fires when the quantum expires (or the process blocks on I/O earlier).</li>
+              <li>The OS performs a <strong>context switch</strong>: it saves the process's registers and state, then restores the state of the next scheduled process.</li>
+              <li>The cycle repeats hundreds or thousands of times per second, giving every process regular turns.</li>
+            </ol>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {multitaskingExamples.map((ex) => (
+              <div key={ex.name} className="bg-muted/40 rounded-xl p-6 border border-border/30 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-secondary/10 text-secondary">
+                    <ex.icon className="w-5 h-5" />
+                  </div>
+                  <h4 className="font-bold text-sm">Multitasking on {ex.name}</h4>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{ex.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-card rounded-2xl p-8 border border-border/50 shadow-sm space-y-4">
+            <h4 className="font-bold text-base">Keeping Concurrent Processes from Conflicting</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Running many processes at once only works if they cannot corrupt each other's data or fight
+              over devices. The OS enforces this with several resource-allocation mechanisms:
+            </p>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              {resourceAllocationMechanisms.map((m) => (
+                <li key={m.title} className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                  <span className="text-xs leading-relaxed"><strong className="text-foreground">{m.title}:</strong> {m.desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Multi-user support */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-bold text-center">Multi-User Support</h3>
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto text-center leading-relaxed">
+            A multi-user operating system lets several independent users work on the same computer at the
+            same time — from local terminals, remote logins, or network sessions — each with their own
+            identity, files, and running programs.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {multiUserFeatures.map((f) => (
+              <div key={f.title} className="bg-card rounded-2xl p-6 border border-border/50 shadow-card space-y-3">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit">
+                  <f.icon className="w-5 h-5" />
+                </div>
+                <h4 className="font-bold text-sm">{f.title}</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-muted/40 rounded-2xl p-8 border border-border/50 space-y-4">
+            <h4 className="font-bold text-base">Examples of Multi-User Systems</h4>
+            <div className="grid md:grid-cols-3 gap-4">
+              {multiUserExamples.map((ex) => (
+                <div key={ex.name} className="bg-card p-5 rounded-xl border border-border/30 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <ex.icon className="w-4 h-4 text-secondary" />
+                    <h5 className="font-bold text-xs text-foreground">{ex.name}</h5>
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{ex.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* OS Characteristics */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-bold text-center">Defining Characteristics of an Operating System</h3>
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto text-center leading-relaxed">
+            Regardless of type, every serious operating system exhibits a common set of traits. Together
+            they are what make a computer dependable and efficient rather than a bare machine.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {osCharacteristics.map((c) => (
+              <div key={c.title} className="bg-card rounded-2xl p-6 border border-border/50 shadow-card space-y-3">
+                <div className="p-3 rounded-xl bg-secondary/10 text-secondary w-fit">
+                  <c.icon className="w-5 h-5" />
+                </div>
+                <h4 className="font-bold text-sm">{c.title}</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">{c.desc}</p>
               </div>
             ))}
           </div>
